@@ -1,0 +1,29 @@
+﻿@{
+}
+<div class="card-body">
+    <a asp-page="/Index" asp-route-countrycode="@Model.CountryCode">
+        @if (!string.IsNullOrEmpty(Model.CountryCode))
+        {
+            <img class="flag" src="icons/flag-icon-css/flags/@(Model.CountryCode).svg" alt="flag" />
+        }
+
+        <h3 class="card-title text-white">@Model.Country</h3>
+        <div class="text-white">
+            <p class="mb-0"><i class="icon-people mr-2"></i><span class="nav-text mr-2">Customers</span></p>
+            <p class="mb-1">
+
+                @Model.TotalCustomers
+            </p>
+            <p class="mb-0">
+                <i class="icon-handbag mr-2"></i><span class="nav-text mr-2">AccountToTransferFroms</span>
+            </p>
+            <p class="mb-1">@Model.TotalAccounts</p>
+            <p class="mb-0">
+                <i class="icon-diamond mr-2"></i><span class="nav-text mr-2">Balance</span>
+            </p>
+            <p class="mb-0">
+                @Model.TotalBalance.ToString("C")
+            </p>
+        </div>
+    </a>
+</div>

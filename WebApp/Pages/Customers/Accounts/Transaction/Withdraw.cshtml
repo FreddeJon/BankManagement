@@ -1,0 +1,72 @@
+﻿@page "/Customers/{customerid}/Accounts/{accountid:int}/Transaction/Withdraw"
+@model WebApp.Pages.Customers.Accounts.Transaction.WithdrawModel
+@{
+    ViewData["Title"] = Model.CustomerName;
+}
+
+<div class="container-fluid">
+    <div class="card bg-light mt-3">
+        <div class="card-body pt-3">
+            <div class="row mb-1 mt-0 pt-0 pb-0">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-dark mb-0 pt-0 bg-transparent">
+                            <li class="breadcrumb-item"><a asp-page="/Index">Home</a></li>
+                            <li class="breadcrumb-item"><a asp-page="/Customers/Index">Customers</a></li>
+                            <li class="breadcrumb-item"><a asp-page="/Customers/Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerName</a></li>
+                            <li class="breadcrumb-item"><a onclick="window.location = `/Customers/${@Model.CustomerId}/Accounts/${@Model.Account.Id}/`">Account</a></li>
+                            <li class="breadcrumb-item cursor-default">Transaction</li>
+                            <li class="breadcrumb-item text-primary" aria-current="page">Withdraw</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <div class="col-md-auto">
+                                <p class="fs-6 mb-1">Withdraw from account #@Model.Account.Id</p>
+                                <p class="fs-6">Balance: <span class="">@Model.Account.Balance.ToString("C")</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <form method="POST">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="form-group row">
+                                    <label asp-for="Amount" class="col-lg-4 col-form-label">
+                                        Amount to withdraw
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <input asp-for="Amount" type="text" class="form-control" aria-label="Amount" placeholder="Amount...">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <span asp-validation-for="Amount" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" asp-for="Operation">
+                                        Operation
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select class="form-select" asp-for="Operation" asp-items="@Model.Operations"></select>
+                                        <span asp-validation-for="Operation" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-dark">Withdraw</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+<partial name="Shared/_ValidationScriptsPartial" />
+
+}

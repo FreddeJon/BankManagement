@@ -1,0 +1,164 @@
+﻿@using Application.Features.Customer.Query.GetCustomersPaginated
+@using Application.Infrastructure.Paging
+@inject IMapper Mapper
+@inject NavigationManager NavManager
+@inject IMediator Mediator
+
+@if (CustomersList is null)
+{
+    <span>Loading ...</span>
+}
+else
+{
+    <div class="container-fluid mt-3 noselect">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card customer-table">
+                    <div class="card-body">
+                        <div class="row mb-0 pb-0 mt-0 pt-0">
+                            <div class="col">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb text-dark pt-0 bg-transparent">
+                                        <li class="breadcrumb-item"><a href="#" @onclick="() => NavManager.NavigateTo(NavManager.BaseUri, true)">Home</a></li>
+                                        <li class="breadcrumb-item text-primary" aria-current="page">Customers</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <CustomerTableSearch OnSearchDone="HandleSearch"></CustomerTableSearch>
+                        <div class="active-member">
+                            <div class="table-responsive">
+                                <table class="table mb-0 table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Id")'>Customer <span class="fa @(SetSortIcon("Id"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Givenname")'>Name <span class="fa @(SetSortIcon("Givenname"))"></span></th>
+                                        <th>PIN</th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Country")'>Country <span class="fa @(SetSortIcon("Country"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("City")'>City <span class="fa @(SetSortIcon("City"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Streetaddress")'>Address <span class="fa @(SetSortIcon("Streetaddress"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Balance")'>Balance <span class="fa @(SetSortIcon("Balance"))"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var customer in CustomersList)
+                                    {
+                                        <CustomerTableItem Customer="@customer"></CustomerTableItem>
+                                    }
+                                    </tbody>
+                                </table>
+                                <div class="container-fluid d-flex align-items-center">
+                                    <div class="col-2 cursor-pointer justify-content-start">
+                                        <button type="button" @onclick="() => SetCurrentPage(CurrentPage - 1)" class="btn btn-secondary btn-lg"><i class="icon-arrow-left mr-3"></i>Previous</button>
+                                    </div>
+                                    <div class="col text-center">
+                                        <span>Page @CurrentPage of @TotalPages</span>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" @onclick="() => SetCurrentPage(CurrentPage + 1)" class="btn btn-secondary btn-lg">Next<i class="icon-arrow-right ml-3"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    private IReadOnlyList<CustomerViewModel>? CustomersList { get; set; }
+
+    private int CurrentPage { get; set; }
+    private string? Search { get; set; }
+    private int TotalPages { get; set; }
+    private SortingOrder SortOrder { get; set; }
+    private string SortColumn { get; set; } = "Id";
+    private const int Limit = 50;
+
+
+    private async Task SetCurrentPage(int page)
+    {
+        CurrentPage = page >= 1 ? page : 1;
+        if (CurrentPage >= TotalPages && TotalPages > 0)
+        {
+            CurrentPage = TotalPages;
+        }
+
+        NavManager.NavigateTo(NavManager.GetUriWithQueryParameter("page", CurrentPage));
+
+       await LoadCustomers();
+        ShouldRender();
+    }
+
+    private async Task HandleSort(string column)
+    {
+        if (SortColumn == column)
+        {
+            SortOrder = SortOrder == SortingOrder.Asc ? SortingOrder.Desc : SortingOrder.Asc;
+        }
+        else
+        {
+            SortOrder = SortingOrder.Asc;
+        }
+
+        SortColumn = column;
+        CurrentPage = 1;
+
+      await LoadCustomers();
+    }
+
+
+    private string SetSortIcon(string column)
+    {
+        if (SortColumn != column) return string.Empty;
+
+        return SortOrder == SortingOrder.Desc ? "fa-sort-up" : "fa-sort-down";
+    }
+
+    private async Task HandleSearch(string search)
+    {
+        Search = search;
+        CurrentPage = 1;
+       await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        var response = await Mediator.Send(new GetCustomerPaginatedQuery() {SortColumn = SortColumn, Page = CurrentPage, Limit = Limit, Search = Search, SortingOrder = SortOrder});
+
+        TotalPages = response.TotalPage;
+
+        CustomersList = Mapper.Map<IReadOnlyList<CustomerViewModel>>(response.Customers);
+    }
+
+    protected override async Task<Task> OnInitializedAsync()
+    {
+        Setup();
+        await SetCurrentPage(CurrentPage);
+        return base.OnInitializedAsync();
+    }
+
+
+    private void Setup()
+    {
+        CurrentPage = 1;
+        SortOrder = SortingOrder.Asc;
+        SortColumn = "Id";
+    }
+
+    public class CustomerViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string NationalId { get; set; } = null!;
+        public string Country { get; set; } = null!;
+        public string City { get; set; } = null!;
+        public string Streetaddress { get; set; } = null!;
+        public decimal Balance { get; set; }
+    }
+}
+
+

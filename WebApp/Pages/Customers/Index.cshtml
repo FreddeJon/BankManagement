@@ -1,0 +1,10 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WebApp.Pages.Customers.IndexModel
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<component type="typeof(CustomerTable)" render-mode="Server" />
+
+

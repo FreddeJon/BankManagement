@@ -1,0 +1,35 @@
+﻿@if (Customer is not null)
+{
+    <tr class="cursor-pointer" @onclick='() => NavManager?.NavigateTo(NavManager.BaseUri + "Customers/" + Customer.Id, true)'>
+        <td>@Customer.Id</td>
+        <td>@Customer.Name</td>
+        <td>@Customer.NationalId</td>
+        <td>@Customer.Country</td>
+        <td>@Customer.City</td>
+        <td>@Customer.Streetaddress</td>
+        <td>@Customer.Balance.ToString("C")</td>
+    </tr>
+}
+else
+{
+    <tr>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+    </tr>
+}
+
+
+@code
+{
+    [Inject]
+    public NavigationManager? NavManager { get; set; }
+
+
+    [Parameter]
+    public CustomerTable.CustomerViewModel? Customer { get; set; }
+}

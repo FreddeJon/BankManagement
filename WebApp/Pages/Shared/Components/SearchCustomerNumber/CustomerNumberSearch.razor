@@ -1,0 +1,23 @@
+﻿<form class="nav-item" @onsubmit="LoadCustomer">
+    <div class="container search-customer">
+        <div class="row  d-flex justify-content-center align-items-center">
+            <div class="col">
+                <div class="form"> <i class="fa fa-search"></i> <input @bind="CustomerId" type="text" class="form-control form-input" placeholder="Customer Number..."> </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    private int? CustomerId { get; set; }
+
+    private void LoadCustomer()
+    {
+        if (CustomerId is not null) NavigationManager.NavigateTo(NavigationManager.BaseUri + "Customers/" + CustomerId, true);
+    }
+}
+
+

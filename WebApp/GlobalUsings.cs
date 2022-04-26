@@ -1,0 +1,11 @@
+﻿global using System.ComponentModel.DataAnnotations;
+global using System.Reflection;
+global using Application;
+global using AutoMapper;
+global using MediatR;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;
+global using Persistence;
+global using WebApp;
+global using WebApp.Pages.Shared.Components.CustomerTableComponents;

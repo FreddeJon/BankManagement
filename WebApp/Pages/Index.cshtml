@@ -1,0 +1,107 @@
+﻿@page
+@model WebApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid">
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card statistic gradient-1">
+                        <partial name="Shared/Partials/_CountryOverviewPartial" model="@Model.Sweden" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card statistic gradient-2">
+                        <partial name="Shared/Partials/_CountryOverviewPartial" model="@Model.Norway" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card statistic gradient-3">
+                        <partial name="Shared/Partials/_CountryOverviewPartial" model="@Model.Finland" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card statistic gradient-4">
+                        <partial name="Shared/Partials/_CountryOverviewPartial" model="@Model.Overview" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card-body">
+                        <h5 class="text-muted">Customer Overview </h5>
+                        <h2 class="mt-4">@Model.Overview.TotalCustomers.ToString("## 'customers'")</h2>
+                        <div class="mt-4">
+                            <h4>Sweden</h4>
+                            <h6 class="mt-1 text-muted">
+                                @Model.Sweden.TotalCustomers<span class="pull-right">@Model.Sweden.Percentage.ToString("0.00%")</span>
+                            </h6>
+                            <div class="progress mb-3" style="height: 7px">
+                                <div class="progress-bar bg-primary" style="width: @(Model.Sweden.Percentage * 100)%;" role="progressbar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4>Norway</h4>
+                            <h6 class="mt-1 text-muted">
+                                @Model.Norway.TotalCustomers<span class="pull-right">@Model.Norway.Percentage.ToString("0.00%")</span>
+                            </h6>
+                            <div class="progress mb-3" style="height: 7px">
+                                <div class="progress-bar bg-success" style="width: @(Model.Norway.Percentage * 100)%;" role="progressbar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4>Finland</h4>
+                            <h6 class="mt-1 text-muted">
+                                @Model.Finland.TotalCustomers<span class="pull-right">@Model.Finland.Percentage.ToString("0.00%")</span>
+                            </h6>
+                            <div class="progress mb-3" style="height: 7px">
+                                <div class="progress-bar bg-warning" style="width: @(Model.Finland.Percentage * 100)%" role="progressbar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <table class="table mb-0 table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer</th>
+                                                <th>Name</th>
+                                                <th>Country</th>
+                                                <th>City</th>
+                                                <th>Address</th>
+                                                <th>Balance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var customer in Model.Customers!)
+                                            {
+                                                <tr class="cursor-pointer" onclick="window.location = `/Customers/${@customer.Id}`">
+                                                    <td>@customer.Id</td>
+                                                    <td>@customer.Name</td>
+                                                    <td>@customer.Country</td>
+                                                    <td>@customer.City</td>
+                                                    <td>@customer.Streetaddress</td>
+                                                    <td>@customer.Balance</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

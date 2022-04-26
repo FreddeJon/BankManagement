@@ -1,0 +1,82 @@
+﻿@page
+@model WebApp.Pages.Customers.CreateModel
+@{
+    ViewData["Title"] = "Create Customer";
+}
+<div class="container-fluid">
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">Register New Customer</h4>
+            <div>
+                <form asp-page-handler="Create" method="POST">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Customer.Givenname">First Name</label>
+                            <input asp-for="Customer.Givenname" class="form-control" placeholder="First Name">
+                            <span class="text-danger" asp-validation-for="Customer.Givenname"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Customer.Surname">Last Name</label>
+                            <input asp-for="Customer.Surname" class="form-control" placeholder="Last Name">
+                            <span class="text-danger" asp-validation-for="Customer.Surname"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Customer.EmailAddress">Email</label>
+                            <input asp-for="Customer.EmailAddress" class="form-control" placeholder="Email">
+                            <span class="text-danger" asp-validation-for="Customer.EmailAddress"></span>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label asp-for="Customer.Streetaddress">Address</label>
+                            <input asp-for="Customer.Streetaddress" class="form-control" placeholder="1234 Main St">
+                            <span class="text-danger" asp-validation-for="Customer.Streetaddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Customer.City">City</label>
+                            <input asp-for="Customer.City" class="form-control" placeholder="Stockholm">
+                            <span class="text-danger" asp-validation-for="Customer.City"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Customer.CountryCode">Country</label>
+                            <select id="inputState" class="form-control" asp-for="Customer.CountryCode" asp-items="@Model.Countries">
+                            </select>
+                            <span class="text-danger" asp-validation-for="Customer.CountryCode"></span>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label asp-for="Customer.Zipcode">Zipcode</label>
+                            <input asp-for="Customer.Zipcode" class="form-control" placeholder="17735">
+                            <span class="text-danger" asp-validation-for="Customer.Zipcode"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Customer.NationalId">PIN</label>
+                            <input asp-for="Customer.NationalId" class="form-control" placeholder="19900110-XXXX">
+                            <span  class="text-danger" asp-validation-for="Customer.NationalId"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Customer.Birthday">Birthday</label>
+                            <input asp-for="Customer.Birthday" class="form-control">
+                            <span class="text-danger" asp-validation-for="Customer.Birthday"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Customer.Telephone">Telephone</label>
+                            <input asp-for="Customer.Telephone" class="form-control">
+                            <span class="text-danger" asp-validation-for="Customer.Telephone"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial" />
+
+}

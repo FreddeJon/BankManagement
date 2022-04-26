@@ -1,0 +1,4 @@
+﻿@{
+    Layout = Context.User.IsInRole("Admin") ? "_LayoutAdmin" : "_Layout";
+} 
+

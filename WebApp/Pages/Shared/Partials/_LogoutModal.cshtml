@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*<a data-toggle="modal" data-target="#exampleModal">
+    Logout
+</a>*@
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="Logout Modal" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between">
+                    <p class="text-dark pt-2">Are you sure you want to logout?</p>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-primary me-md-2" type="button" data-dismiss="modal">Close</button>
+                    <a class="text-center btn btn-primary" rol="button" asp-area="Identity" asp-page="/AccountToTransferFrom/Logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

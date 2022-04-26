@@ -1,0 +1,140 @@
+﻿@page "/Customers/{customerid:int}"
+@model WebApp.Pages.Customers.DetailsModel
+@{
+    ViewData["Title"] = Model.Customer?.Name ?? "Details";
+}
+
+
+@if (Model.Customer is null)
+{
+    <h1>Customer not found</h1>
+}
+else
+{
+
+    <div class="container-fluid">
+        <div class="card bg-light mt-3">
+            <div class="card-body pt-3">
+                <div class="row mb-0 pb-0 mt-0 pt-0">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb text-dark mb-0 pt-0 bg-transparent">
+                                <li class="breadcrumb-item"><a asp-page="/Index">Home</a></li>
+                                <li class="breadcrumb-item"><a asp-page="/Customers/Index">Customers</a></li>
+                                <li class="breadcrumb-item text-primary" aria-current="page">@Model.Customer.Name</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row pt-0">
+                    <div class="col-lg-4 noselect">
+                        <div class="card-body mt-1">
+                            <div class="text-center">
+                                <img id="profile-image" src="" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                <h5 class="my-3">@Model.Customer.Name</h5>
+                            </div>
+                            <div class="d-flex flex-column pl-4">
+                                <address>
+                                </address>
+                                <p class="text-muted mb-0">@Model.Customer.Streetaddress</p>
+                                <p class="text-muted mb-0 float-end">@Model.Customer.Zipcode, @Model.Customer.City</p>
+                                <p class="text-muted mb-4 float-end">@Model.Customer.Country</p>
+                            </div>
+                            <ul class="list-group list-group-flush bg-light">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                    <h6 class="mb-0">Customer</h6>
+                                    <span class="text-secondary">@Model.Customer.Id</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                    <h6 class="mb-0" data-toggle="tooltip" data-placement="top" title="Personal Identity Number">PIN*</h6>
+                                    <span class="text-secondary">@Model.Customer.NationalId</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                    <h6 class="mb-0">Telephone</h6>
+                                    <span class="text-secondary">@Model.Customer.Telephone</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                    <h6 class="mb-0">Email</h6>
+                                    <span class="text-secondary">@Model.Customer.EmailAddress</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row pb-0 noselect">
+                                    <div class="col-sm-2">
+                                        <p class="mb-0">Accounts</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Type</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="mb-0">Balance</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Latest transaction</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="mb-0">Total Balance @Model.Customer.Balance.ToString("C")</p>
+                                    </div>
+                                </div>
+                                @foreach (var account in Model.Customer.Accounts)
+                                {
+                                    <hr>
+                                    <div class="row cursor-pointer pb-3 pt-3" onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@account.Id}`">
+                                        <div class="col-sm-2">
+                                            <p class="mb-0">#@account.Id</p>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">@account.AccountType</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class="mb-0">@account.Balance.ToString("C")</p>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            @if (account.LatestTransaction != null)
+                                            {
+                                                <p class="mb-0">  @account.LatestTransaction?.ToString("s")  </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="mb-0">N/A</p>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts
+{
+<script>
+    // ReSharper disable once PossiblyUnassignedProperty
+    GetGenderFromName = async () => {
+        const img = document.querySelector('#profile-image');
+        var customer = "@Model.Customer?.Name";
+        var firstName = customer.split(' ')[0];
+
+        // ReSharper disable once UseOfImplicitGlobalInFunctionScope
+        var response = await fetch(`https://api.genderize.io/?name=${firstName}`);
+        var data = await response.json();
+        if (data.gender === "male") {
+            img.src = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp";
+        } else {
+            img.src = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5.webp";
+        }
+    }
+    window.onload = GetGenderFromName();
+</script>
+}
+

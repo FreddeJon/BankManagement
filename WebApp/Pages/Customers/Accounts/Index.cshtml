@@ -1,0 +1,210 @@
+﻿@page "/Customers/{customerid}/Accounts/{accountid}"
+@model WebApp.Pages.Customers.Accounts.IndexModel
+@{
+    ViewData["Title"] = Model.Customer.Name;
+}
+
+<div class="container-fluid">
+    <div class="card bg-light mt-3">
+        <div class="card-body pt-3">
+            <div class="row mb-1 mt-0 pt-0 pb-0">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-dark mb-0 pt-0 bg-transparent">
+                            <li class="breadcrumb-item"><a asp-page="/Index">Home</a></li>
+                            <li class="breadcrumb-item"><a asp-page="/Customers/Index">Customers</a></li>
+                            <li class="breadcrumb-item"><a asp-page="/Customers/Details" asp-route-customerId="@Model.Customer.Id">@Model.Customer.Name</a></li>
+                            <li class="breadcrumb-item text-primary" aria-current="page">Account</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="row pt-0">
+                <div class="col-lg-4 noselect">
+                    <div class="card-body mt-1">
+                        <div class="text-center">
+                            <img id="profile-image" src="" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3">@Model.Customer.Name</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0">Accounts</h6>
+                                <span class="text-secondary">@Model.Account.Id</span>
+                            </li>                           
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0">Transactions</h6>
+                                <span class="text-secondary">@Model.TotalTransactions</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0">Balance</h6>
+                                <span class="text-secondary">@Model.Account.Balance.ToString("C")</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0" data-toggle="tooltip" data-placement="top" title="Personal Identity Number">PIN*</h6>
+                                <span class="text-secondary">@Model.Customer.NationalId</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0">Telephone</h6>
+                                <span class="text-secondary">@Model.Customer.Telephone</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
+                                <h6 class="mb-0">Email</h6>
+                                <span class="text-secondary">@Model.Customer.EmailAddress</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <nav aria-label="Transactions">
+                                <div class="row mb-2 mt-0 pt-0 pb-0 justify-content-end">
+
+                                    <div class="col-auto pr-1 pl-1">
+                                        <button class="btn btn-primary" onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@Model.Account.Id}/Transaction/Deposit`" role="button" aria-label="Deposit">Deposit</button>
+                                    </div>
+                                    <div class="col-auto pr-1 pl-1">
+                                        <button class="btn btn-primary" @(@Model.Account.Balance <= 0? "disabled" : "") onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@Model.Account.Id}/Transaction/Withdraw`" role="button" aria-label="Withdraw">Withdraw</button>
+                                    </div>
+                                    <div class="col-auto pr-1 pl-1">
+                                        <button class="btn btn-primary" @(@Model.Account.Balance <= 0? "disabled" : "") onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@Model.Account.Id}/Transaction/Transfer`" role="button" aria-label="Transfer">Transfer</button>
+                                    </div>
+                                </div>
+                            </nav>
+                            <div class="row pb-0 noselect">
+                                <div class="col-sm-1">
+                                    <p class="mb-0">#</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="mb-0">Type</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="mb-0">Operation</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="mb-0">Amount</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="mb-0">New Balance</p>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Date</p>
+                                </div>
+                            </div>
+                            <div id="transaction-container">
+                                @foreach (var transaction in Model.Account.Transactions)
+                                {
+                                    <hr>
+                                    <div class="row pb-1 pt-1">
+                                        <div class="col-sm-1">
+                                            <p class="mb-0" data-toggle="tooltip" data-placement="left" title="@transaction.Id">#</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class="mb-0">@transaction.Type</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class="mb-0">@transaction.Operation</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class=" @(transaction.Type == "Debit" ? "text-success" : "text-danger") mb-0">@(transaction.Type == "Debit" ? "+" : "-")@transaction.Amount</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class="mb-0">@transaction.NewBalance</p>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">@transaction.Date</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            @if (Model.TotalPage > 1)
+                            {
+                                <a id="loadmore" class="btn" href="javascript:fetchMore();">See more</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts
+{
+<script>
+
+    pageNo = 2;
+
+    async function fetchMore() {
+
+        const response = await fetch(`Customers/${@Model.Customer.Id}/AccountToTransferFroms/${@Model.Account.Id}?handler=LoadTransactions&pageNo=${pageNo}&accountId=${@Model.Account.Id}`);
+
+        const json = await response.json();
+
+        pageNo = pageNo + 1;
+        json.items.forEach(addTransaction);
+
+        if (json.lastPage < pageNo) {
+            const button = document.querySelector("#loadmore");
+
+            button.parentNode.removeChild(button);
+        }
+
+    }
+
+    function addTransaction(element) {
+        document.querySelector('#transaction-container').innerHTML +=
+            `
+          <hr>
+                             <div class="row pb-1 pt-1">
+                                 <div class="col-sm-1">
+                                     <p class="mb-0" data-toggle="tooltip" data-placement="left" title="${element.id}">#</p>
+                                 </div>
+                                 <div class="col-sm-2">
+                                     <p class="mb-0">${element.type}</p>
+                                 </div>
+                                 <div class="col-sm-2">
+                                     <p class="mb-0">${element.operation}</p>
+                                 </div>
+                                 <div class="col-sm-2">
+                                     <p class=" ${element.type === "Debit" ? "text-success" : "text-danger"} mb-0"> ${element.type === "Debit" ? "+" : "-"} ${element.amount}</p>
+                                 </div>
+                                 <div class="col-sm-2">
+                                     <p class="mb-0">${element.newBalance}</p>
+                                 </div>
+
+                                 <div class="col-sm-3">
+                                     <p class="mb-0">${element.date}</p>
+                                 </div>
+                             </div>
+         `;
+    }
+
+
+    // ReSharper disable once PossiblyUnassignedProperty
+    GetGenderFromName = async () => {
+        const img = document.querySelector('#profile-image');
+        var customer = "@Model.Customer.Name";
+        var firstName = customer.split(' ')[0];
+
+        // ReSharper disable once UseOfImplicitGlobalInFunctionScope
+        var response = await fetch(`https://api.genderize.io/?name=${firstName}`);
+        var data = await response.json();
+        if (data.gender === "male") {
+            img.src = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp";
+        } else {
+            img.src = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5.webp";
+        }
+    };
+    window.onload = GetGenderFromName();
+
+</script>
+}

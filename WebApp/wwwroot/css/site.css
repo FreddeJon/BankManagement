@@ -1,0 +1,256 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+
+thead > th {
+    margin-top: 0;
+}
+
+
+.flag {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    height: 50px;
+    border-radius: 2px;
+    box-shadow: 6px 11px 41px -28px #a99de7;
+}
+
+
+.statistic {
+    min-height: 200px;
+}
+
+.row {
+    padding: 20px 0 20px 0;
+}
+
+.fill-row {
+    height: 100%
+}
+
+
+.cursor-alias {
+    cursor: alias;
+}
+
+.cursor-all-scroll {
+    cursor: all-scroll;
+}
+
+.cursor-auto {
+    cursor: auto;
+}
+
+.cursor-cell {
+    cursor: cell;
+}
+
+.cursor-context-menu {
+    cursor: context-menu;
+}
+
+.cursor-col-resize {
+    cursor: col-resize;
+}
+
+.cursor-copy {
+    cursor: copy;
+}
+
+.cursor-crosshair {
+    cursor: crosshair;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+.cursor-e-resize {
+    cursor: e-resize;
+}
+
+.cursor-ew-resize {
+    cursor: ew-resize;
+}
+
+.cursor-grab {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+.cursor-grabbing {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.cursor-help {
+    cursor: help;
+}
+
+.cursor-move {
+    cursor: move;
+}
+
+.cursor-n-resize {
+    cursor: n-resize;
+}
+
+.cursor-ne-resize {
+    cursor: ne-resize;
+}
+
+.cursor-nesw-resize {
+    cursor: nesw-resize;
+}
+
+.cursor-ns-resize {
+    cursor: ns-resize;
+}
+
+.cursor-nw-resize {
+    cursor: nw-resize;
+}
+
+.cursor-nwse-resize {
+    cursor: nwse-resize;
+}
+
+.cursor-no-drop {
+    cursor: no-drop;
+}
+
+.cursor-none {
+    cursor: none;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-progress {
+    cursor: progress;
+}
+
+.cursor-row-resize {
+    cursor: row-resize;
+}
+
+.cursor-s-resize {
+    cursor: s-resize;
+}
+
+.cursor-se-resize {
+    cursor: se-resize;
+}
+
+.cursor-sw-resize {
+    cursor: sw-resize;
+}
+
+.cursor-text {
+    cursor: text;
+}
+
+.cursor-w-resize {
+    cursor: w-resize;
+}
+
+.cursor-wait {
+    cursor: wait;
+}
+
+.cursor-zoom-in {
+    cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+    cursor: zoom-out;
+}
+
+
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.paging-button {
+    padding: 0.8125rem 1.5625rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05rem;
+    color: black;
+}
+.paging-button :hover {
+    color: brown;
+}
+
+.id-col {
+    max-width: 90px;
+}
+
+
+.customer-table {
+    min-height: 1100px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxwYXRoIGQ9Ik0yLjUgMEwxIDEuNSAzLjUgNCAxIDYuNSAyLjUgOGw0LTQtNC00eiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+);
+}
+
+
+.form {
+    position: relative
+}
+
+.form .fa-search {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    color: #9ca3af
+}
+
+.form-input {
+    height:30px;
+    text-indent: 33px;
+    border-radius: 10px
+}
+
+.form-input:focus {
+    box-shadow: none;
+    border: none
+}
+
+.search-customer {
+    width: 230px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+
+li.breadcrumb-item a:hover {
+    color: #2e28f6 !important;
+    cursor: pointer;
+}
+
+
+li.breadcrumb-item.text-primary {
+    cursor: default;
+}
