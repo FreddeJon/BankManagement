@@ -14,7 +14,7 @@ public static class RegisterServices
         builder.Services.AddRazorPages().AddRazorPagesOptions(ops =>
         {
             ops.Conventions.AuthorizeFolder("/");
-            ops.Conventions.AllowAnonymousToAreaPage("Identity", "/AccountToTransferFrom/Login");
+            ops.Conventions.AllowAnonymousToAreaPage("Identity", "/Accounts/Login");
         });
 
         //builder.Services.AddServerSideBlazor();

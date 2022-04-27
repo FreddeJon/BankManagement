@@ -68,8 +68,6 @@
 //}
 
 
-using System;
-using System.Reflection;
 using Azure;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Indexes;
@@ -77,8 +75,6 @@ using Azure.Search.Documents.Indexes.Models;
 using Azure.Search.Documents.Models;
 using AzureSearch.Entities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Persistence;
 
 namespace AzureSearch.Quickstart
 

@@ -3,7 +3,7 @@ public static class RegisterPersistenceServices
 {
     public static void ConfigurePersistenceServices(this IServiceCollection service, IConfiguration configuration, bool isDevelopment)
     {
-        var connection = configuration.GetConnectionString(isDevelopment ? "DevConnection" : "DbConnection");
+        var connection = configuration.GetConnectionString("DbConnection");
 
 
         service.AddDbContext<ApplicationDbContext>(options =>

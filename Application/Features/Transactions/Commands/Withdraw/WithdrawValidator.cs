@@ -26,6 +26,8 @@ public class WithdrawValidator : AbstractValidator<WithdrawCommand>
     private async Task<bool> EnoughBalance(WithdrawCommand request, decimal amount, CancellationToken token)
     {
         var account = await _context.Accounts.FindAsync(request.AccountId);
+        if (account is null) return false;
+
         return account!.Balance >= amount;
     }
     private async Task<bool> Exist(int accountId, CancellationToken token)

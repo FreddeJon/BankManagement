@@ -2,7 +2,7 @@
 
 namespace WebApp.Pages;
 
-[ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "countrycode" })]
+[ResponseCache(Duration = 60, VaryByQueryKeys = new[] {"countrycode"})]
 public class IndexModel : PageModel
 {
     private readonly IMapper _mapper;

@@ -35,7 +35,7 @@ public class MapperProfile : Profile
             .ForMember(x => x.Country, opt => opt.MapFrom(x => GetCountry(x.CountryCode)));
 
 
-        // Pages/Customers/AccountToTransferFrom/Index
+        // Pages/Customers/Accounts/Index
         CreateMap<CustomerDto, IndexModel.CustomerViewModel>();
         CreateMap<AccountDto, IndexModel.AccountViewModel>();
         CreateMap<TransactionDto, IndexModel.TransactionViewModel>()
@@ -43,13 +43,13 @@ public class MapperProfile : Profile
             .ForMember(x => x.NewBalance, opt => opt.MapFrom(x => x.NewBalance.ToString("C")))
             .ForMember(x => x.Date, opt => opt.MapFrom(x => x.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 
-        // Pages/Customers/AccountToTransferFrom/Transactions/Deposit
+        // Pages/Customers/Accounts/Transactions/Deposit
         CreateMap<AccountDto, DepositModel.AccountViewModel>();
 
-        // Pages/Customers/AccountToTransferFrom/Transactions/Withdraw
+        // Pages/Customers/Accounts/Transactions/Withdraw
         CreateMap<AccountDto, WithdrawModel.AccountViewModel>().ReverseMap();
 
-        // Pages/Customers/AccountToTransferFrom/Transactions/Transfer
+        // Pages/Customers/Accounts/Transactions/Transfer
         CreateMap<AccountDto, TransferModel.AccountViewModel>().ReverseMap();
 
 
