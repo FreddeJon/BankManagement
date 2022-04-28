@@ -31,8 +31,6 @@ public class WithdrawCommandHandlerTest
         const decimal amount = 100;
         const string operation = "ATM withdrawal";
 
-
-
         var response = await _sut.Handle(new WithdrawCommand() { AccountId = accountId, Amount = amount, Operation = operation }, new CancellationToken());
 
 
@@ -73,7 +71,7 @@ public class WithdrawCommandHandlerTest
 
 
     [Fact]
-    public async Task Invalid_neagtive_amount_should_not_be_withdrawn()
+    public async Task Invalid_negative_amount_should_not_be_withdrawn()
     {
         const int accountId = 1;
         const decimal amount = -50;

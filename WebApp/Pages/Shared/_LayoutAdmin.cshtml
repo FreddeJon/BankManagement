@@ -106,8 +106,8 @@
                             <i class="icon-notebook"></i><span class="nav-text">Users</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="#">Users</a></li>
-                            <li><a href="#">Register</a></li>
+                            <li><a asp-page="/Users/Index">Users</a></li>
+                            <li><a asp-page="/Users/Create">Register new</a></li>
                         </ul>
                     </li>
 
@@ -154,7 +154,7 @@
 
 
     <!--Rendered Scripts-->
-    @*<script src="_framework/blazor.server.js"></script>*@
+    <script src="_framework/blazor.server.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

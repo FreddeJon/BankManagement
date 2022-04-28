@@ -1,6 +1,5 @@
 using Application.Features.Account.Query.GetAccountDetailsForTransaction;
 using Application.Features.Transactions.Commands.Deposit;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.Pages.Customers.Accounts.Transaction;
 
@@ -60,7 +59,7 @@ public class DepositModel : PageModel
             return Page();
         }
 
-
+        TempData["Message"] = $"Deposited {Amount.Value:C} to account {accountId}";
         return Redirect($"/Customers/{customerId}/Accounts/{Account.Id}");
     }
 
@@ -97,7 +96,8 @@ public class DepositModel : PageModel
 
         if (response.Status == Application.Responses.StatusCode.Error)
         {
-            return RedirectToPage("404");
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
         }
 
         CustomerName = response.CustomerName;

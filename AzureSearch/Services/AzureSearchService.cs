@@ -13,7 +13,7 @@ public class AzureSearchService
     private const string IndexName = "customers";
     private const string ApiKey = "C1F5A76E23B1F3B9437682452D8FF0A4";
     public SearchIndexClient AdminClient { get; set; }
-    public SearchClient SearchClient{ get; set; }
+    public SearchClient SearchClient { get; set; }
 
 
     public AzureSearchService(ApplicationDbContext context)

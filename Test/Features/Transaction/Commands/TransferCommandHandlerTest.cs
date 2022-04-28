@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Features.Transactions.Commands.Transfer;
-using Application.Features.Transactions.Commands.Withdraw;
 
 namespace UnitTest.Features.Transaction.Commands;
 public class TransferCommandHandlerTest
@@ -30,15 +29,15 @@ public class TransferCommandHandlerTest
         const int fromAccount = 1;
         const int toAccount = 2;
         const decimal amount = 100;
-      
 
 
 
-        var response = await _sut.Handle(new TransferCommand() { FromAccountId = fromAccount, ToAccountId = toAccount,Amount = amount }, new CancellationToken());
+
+        var response = await _sut.Handle(new TransferCommand() { FromAccountId = fromAccount, ToAccountId = toAccount, Amount = amount }, new CancellationToken());
 
 
         var accountFrom = await _context.Accounts.FindAsync(fromAccount);
-        var accountTo= await _context.Accounts.FindAsync(toAccount);
+        var accountTo = await _context.Accounts.FindAsync(toAccount);
 
         accountFrom!.Transactions.Count.ShouldBe(1);
         accountFrom.Balance.ShouldBe(0);

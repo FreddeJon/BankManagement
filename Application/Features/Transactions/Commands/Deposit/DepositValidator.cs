@@ -17,10 +17,8 @@ public class DepositValidator : AbstractValidator<DepositCommand>
             .WithMessage("{PropertyName} must be between $0.01 and $10,000,000.00");
         RuleFor(x => x.Operation)
             .Cascade(CascadeMode.Stop)
-            .NotEmpty().NotEmpty().WithMessage("{PropertyName} is required")
+            .NotEmpty().WithMessage("{PropertyName} is required")
             .Must(ValidOperation).WithMessage("{PropertyName} is not a valid operation");
-
-
     }
 
     private async Task<bool> Exist(int accountId, CancellationToken token)

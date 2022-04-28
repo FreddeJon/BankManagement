@@ -33,9 +33,8 @@ app.UseResponseCaching();
 
 app.UseEndpoints(endpoint =>
 {
-//    endpoint.MapBlazorHub();
+    endpoint.MapBlazorHub();
     endpoint.MapRazorPages();
-
 });
 
 

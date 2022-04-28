@@ -1,6 +1,5 @@
 using Application.Features.Account.Query.GetAccountDetailsForTransaction;
 using Application.Features.Transactions.Commands.Withdraw;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.Pages.Customers.Accounts.Transaction;
 
@@ -63,6 +62,8 @@ public class WithdrawModel : PageModel
             return Page();
         }
 
+
+        TempData["Message"] = $"Withdrew {Amount.Value:C} from account {accountId}";
         return Redirect($"/Customers/{customerId}/Accounts/{Account.Id}");
     }
 
@@ -106,7 +107,8 @@ public class WithdrawModel : PageModel
 
         if (response.Status == Application.Responses.StatusCode.Error)
         {
-            return RedirectToPage("404");
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
         }
 
         CustomerName = response.CustomerName;

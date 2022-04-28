@@ -1,6 +1,4 @@
-﻿
-using Application.Models.DataTransferObjects;
-using WebApp.Pages.Customers;
+﻿using WebApp.Pages.Customers;
 using WebApp.Pages.Customers.Accounts.Transaction;
 using IndexModel = WebApp.Pages.Customers.Accounts.IndexModel;
 
@@ -34,6 +32,10 @@ public class MapperProfile : Profile
             .ForMember(x => x.TelephoneCountryCode, opt => opt.MapFrom(y => GetTelephoneCode(y.CountryCode)))
             .ForMember(x => x.Country, opt => opt.MapFrom(x => GetCountry(x.CountryCode)));
 
+        // Pages/Customers/Edit
+        CreateMap<EditModel.EditCustomerModel, CustomerDto>()
+            .ForMember(x => x.TelephoneCountryCode, opt => opt.MapFrom(y => GetTelephoneCode(y.CountryCode)))
+            .ForMember(x => x.Country, opt => opt.MapFrom(x => GetCountry(x.CountryCode))).ReverseMap();
 
         // Pages/Customers/Accounts/Index
         CreateMap<CustomerDto, IndexModel.CustomerViewModel>();
@@ -53,6 +55,9 @@ public class MapperProfile : Profile
         CreateMap<AccountDto, TransferModel.AccountViewModel>().ReverseMap();
 
 
+
+        // Pages/Users/Index
+        CreateMap<IdentityUser, Pages.Users.IndexModel.UserViewModel>().ReverseMap();
 
 
 

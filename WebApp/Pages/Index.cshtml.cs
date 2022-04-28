@@ -2,7 +2,7 @@
 
 namespace WebApp.Pages;
 
-[ResponseCache(Duration = 60, VaryByQueryKeys = new[] {"countrycode"})]
+[ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "countrycode" })]
 public class IndexModel : PageModel
 {
     private readonly IMapper _mapper;
@@ -27,7 +27,11 @@ public class IndexModel : PageModel
     {
         var response = await _mediator.Send(new GetStatisticsQuery() { CountryCode = countryCode });
 
-        if (response.Status == Application.Responses.StatusCode.Error) return RedirectToPage("Error");
+        if (response.Status == Application.Responses.StatusCode.Error)
+        {
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
+        }
 
 
         Customers = _mapper.Map<IReadOnlyList<CustomerViewModel>>(response.Customers);

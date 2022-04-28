@@ -1,13 +1,13 @@
 ﻿namespace Persistence;
 public static class RegisterPersistenceServices
 {
-    public static void ConfigurePersistenceServices(this IServiceCollection service, IConfiguration configuration, bool isDevelopment)
+    public static void ConfigurePersistenceServices(this IServiceCollection service, IConfiguration configuration)
     {
-        var connection = configuration.GetConnectionString("DbConnection");
+        var connection = configuration.GetConnectionString("DevDbConnection");
 
 
         service.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connection));
+            options.UseSqlServer(connection), ServiceLifetime.Transient);
         service.AddDatabaseDeveloperPageExceptionFilter();
 
         service.AddDefaultIdentity<IdentityUser>(options =>

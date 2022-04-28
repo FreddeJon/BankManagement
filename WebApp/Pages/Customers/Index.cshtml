@@ -5,6 +5,16 @@
     ViewData["Title"] = "Customers";
 }
 
+@if (Model.Message is not null)
+{
+    <div class="container-fluid mt-3 noselect">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>@Model.Message!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
 <component type="typeof(CustomerTable)" render-mode="Server" />
 
 

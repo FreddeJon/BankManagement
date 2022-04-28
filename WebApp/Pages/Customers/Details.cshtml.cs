@@ -9,6 +9,10 @@ public class DetailsModel : PageModel
 
     public CustomerViewModel? Customer { get; private set; }
 
+
+    [TempData]
+    public string? Message { get; set; }
+
     public DetailsModel(IMapper mapper, IMediator mediator)
     {
         _mapper = mapper;
@@ -22,7 +26,8 @@ public class DetailsModel : PageModel
 
         if (response.Status == Application.Responses.StatusCode.Error)
         {
-            return RedirectToPage("404");
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
         }
 
         Customer = _mapper.Map<CustomerViewModel>(response.Customer);

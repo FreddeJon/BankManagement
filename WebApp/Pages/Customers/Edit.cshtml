@@ -1,12 +1,12 @@
-﻿@page
-@model WebApp.Pages.Customers.CreateModel
+﻿@page "/Customers/{id:int}/Edit"
+@model WebApp.Pages.Customers.EditModel
 @{
-    ViewData["Title"] = "Create Customer";
+    ViewData["Title"] = "Edit";
 }
 <div class="container-fluid">
     <div class="card mt-3">
         <div class="card-body">
-            <h4 class="card-title">Register New Customer</h4>
+            <h4 class="card-title">Edit @Model.Customer.Givenname @Model.Customer.Surname</h4>
             <div>
                 <form asp-page-handler="Create" method="POST">
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -56,11 +56,11 @@
                         <div class="form-group col-md-4">
                             <label asp-for="Customer.NationalId">PIN</label>
                             <input asp-for="Customer.NationalId" class="form-control" placeholder="19900110-XXXX">
-                            <span  class="text-danger" asp-validation-for="Customer.NationalId"></span>
+                            <span class="text-danger" asp-validation-for="Customer.NationalId"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label asp-for="Customer.Birthday">Birthday</label>
-                            <input asp-for="Customer.Birthday" class="form-control" data-provide="datepicker">
+                            <input asp-for="Customer.Birthday" class="form-control">
                             <span class="text-danger" asp-validation-for="Customer.Birthday"></span>
                         </div>
                         <div class="form-group col-md-4">
@@ -69,14 +69,16 @@
                             <span class="text-danger" asp-validation-for="Customer.Telephone"></span>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-dark">Register</button>
+                    <button type="submit" class="btn btn-dark">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
 @section Scripts
 {
-    <partial name="Shared/_ValidationScriptsPartial" />
+<partial name="Shared/_ValidationScriptsPartial" />
 
 }

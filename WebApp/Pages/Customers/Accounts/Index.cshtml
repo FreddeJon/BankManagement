@@ -4,6 +4,15 @@
     ViewData["Title"] = Model.Customer.Name;
 }
 
+@if (Model.Message is not null)
+{
+    <div class="container-fluid mt-3 noselect">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>@Model.Message!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
 <div class="container-fluid">
     <div class="card bg-light mt-3">
         <div class="card-body pt-3">

@@ -19,12 +19,20 @@ public class IndexModel : PageModel
     public int TotalPage { get; set; }
     public int TotalTransactions { get; set; }
 
+    [TempData]
+    public string? Message { get; set; }
+
 
     public async Task<IActionResult> OnGet(int customerId, int accountId)
+    
     {
         var response = await _mediator.Send(new GetAccountAndCustomerQuery() { AccountId = accountId, CustomerId = customerId });
 
-        if (response.Status == Application.Responses.StatusCode.Error) return RedirectToPage("404");
+        if (response.Status == Application.Responses.StatusCode.Error)
+        {
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
+        }
 
         TotalPage = response.TotalPages;
         TotalTransactions = response.TotalTransactions;

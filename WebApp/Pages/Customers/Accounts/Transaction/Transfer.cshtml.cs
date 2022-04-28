@@ -60,6 +60,8 @@ public class TransferModel : PageModel
             return Page();
         }
 
+
+        TempData["Message"] = $"Transferred {Amount.Value:C} from account {AccountToTransferFrom.Id} to account {ToAccountId}";
         return Redirect($"/Customers/{customerId}/Accounts/{AccountToTransferFrom.Id}");
     }
 
@@ -80,7 +82,8 @@ public class TransferModel : PageModel
 
         if (response.Status == Application.Responses.StatusCode.Error)
         {
-            return RedirectToPage("404");
+            TempData["ErrorMessage"] = $"{response.StatusText}";
+            return RedirectToPage("/PageNotFound");
         }
 
         CustomerName = response.CustomerName;

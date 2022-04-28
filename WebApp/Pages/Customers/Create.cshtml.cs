@@ -1,12 +1,9 @@
-
 using Application.Features.Customer.Commands;
-using Application.Models.DataTransferObjects;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 #pragma warning disable CS8618
 
 namespace WebApp.Pages.Customers;
 
+[Authorize(Roles = nameof(ApplicationRoles.Admin))]
 public class CreateModel : PageModel
 {
     private readonly IMapper _mapper;
@@ -53,7 +50,7 @@ public class CreateModel : PageModel
         }
 
 
-
+        TempData["Message"] = "Customer Created";
         return Redirect($"/Customers/{response.CustomerId}");
     }
 

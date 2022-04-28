@@ -21,8 +21,6 @@ public class DepositCommandHandlerTest
         _context.AddRange(DummyData.GetDummyCustomers());
     }
 
-
-
     [Fact]
     public async Task Valid_amount_deposit_should_be_deposited()
     {
@@ -70,6 +68,7 @@ public class DepositCommandHandlerTest
         response.ShouldBeOfType<DepositResponse>();
 
     }
+
     [Fact]
     public async Task Valid_amount_10m_should_be_deposited()
     {
@@ -79,9 +78,7 @@ public class DepositCommandHandlerTest
         const string operation = "Deposit cash";
 
 
-
         var response = await _sut.Handle(new DepositCommand() { AccountId = accountId, Amount = amount, Operation = operation }, new CancellationToken());
-
 
         var account = await _context.Accounts.FindAsync(accountId);
 
@@ -93,6 +90,7 @@ public class DepositCommandHandlerTest
         response.Errors.ShouldBeNull();
         response.ShouldBeOfType<DepositResponse>();
     }
+
     [Fact]
     public async Task Invalid_accountId_should_not_be_deposited()
     {
@@ -115,10 +113,6 @@ public class DepositCommandHandlerTest
         response.Errors!.Count.ShouldBeGreaterThan(0);
         response.ShouldBeOfType<DepositResponse>();
     }
-
-
-
-
 
     [Fact]
     public async Task Invalid_negative_amount_should_not_be_deposited()
@@ -144,7 +138,6 @@ public class DepositCommandHandlerTest
         response.ShouldBeOfType<DepositResponse>();
     }
 
-
     [Fact]
     public async Task Invalid_amount_to_high_should_not_be_deposited()
     {
@@ -168,5 +161,4 @@ public class DepositCommandHandlerTest
         response.Errors!.Count.ShouldBeGreaterThan(0);
         response.ShouldBeOfType<DepositResponse>();
     }
-
 }

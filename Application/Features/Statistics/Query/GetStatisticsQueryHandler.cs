@@ -14,13 +14,13 @@ public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, Sta
     {
         var response = new StatisticsBaseResponse();
 
-        var query = _context.Customers.Include(x => x.Accounts).AsQueryable();
-        var totalCount = await query.CountAsync(cancellationToken: cancellationToken);
+        var customers = await _context.Customers.Include(x => x.Accounts).ToListAsync();
+        var totalCount = customers.Count;
 
-        response.Overview = await CreateStatistic(query, totalCount, "");
-        response.Sweden = await CreateStatistic(query, totalCount, "SE");
-        response.Finland = await CreateStatistic(query, totalCount, "FI");
-        response.Norway = await CreateStatistic(query, totalCount, "NO");
+        response.Overview = await CreateStatistic(customers, totalCount, "");
+        response.Sweden = await CreateStatistic(customers, totalCount, "SE");
+        response.Finland = await CreateStatistic(customers, totalCount, "FI");
+        response.Norway = await CreateStatistic(customers, totalCount, "NO");
 
 
 
@@ -31,23 +31,23 @@ public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, Sta
 
         if (request.CountryCode != null && validCountryCodes.Any(x => x.Contains(request.CountryCode.ToUpper())))
         {
-            query = query.Where(x => x.CountryCode == request.CountryCode);
+            customers = customers.Where(x => x.CountryCode == request.CountryCode).ToList();
         }
 
 
-        response.Customers = _mapper.Map<IReadOnlyList<CustomerDto>>(await query
-            .OrderByDescending(x => x.Accounts.Sum(b => b.Balance)).Take(10).ToListAsync(cancellationToken: cancellationToken));
+        response.Customers = _mapper.Map<IReadOnlyList<CustomerDto>>(customers
+            .OrderByDescending(x => x.Accounts.Sum(b => b.Balance)).Take(10).ToList());
 
         return response;
-
+         
     }
 
 
 
 
-    private static async Task<Statistic> CreateStatistic(IQueryable<Domain.Entities.Customer> query, int totalAmountOfCustomers, string countryCode)
+    private static Task<Statistic> CreateStatistic(List<Domain.Entities.Customer> customers, int totalAmountOfCustomers, string countryCode)
     {
-        var customers = string.IsNullOrWhiteSpace(countryCode) ? await query.ToListAsync() : await query.Where(x => x.CountryCode == countryCode).ToListAsync();
+        customers = string.IsNullOrWhiteSpace(countryCode) ? customers : customers.Where(x => x.CountryCode == countryCode).ToList();
 
 
 
@@ -77,6 +77,6 @@ public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, Sta
         };
 
 
-        return response;
+        return Task.FromResult(response);
     }
 }
