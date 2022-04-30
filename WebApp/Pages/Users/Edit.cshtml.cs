@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
 namespace WebApp.Pages.Users
 {
     public class EditModel : PageModel
@@ -71,7 +68,6 @@ namespace WebApp.Pages.Users
         {
 
             var currentUser = await _userManager.FindByIdAsync(id);
-
             var userEmail = await _userManager.FindByEmailAsync(Email);
             var username = await _userManager.FindByNameAsync(Username);
 

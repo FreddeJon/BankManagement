@@ -1,11 +1,18 @@
-﻿using AzureSearch.Services;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace AzureSearch;
+﻿namespace AzureSearch;
 public static class RegisterServices
 {
-    public static void ConfigureAzureSearch(this IServiceCollection services)
+    public static IConfiguration ConfigureAzureSearch(this IServiceCollection services)
     {
-        services.AddTransient<AzureSearchService>();
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false)
+            .AddUserSecrets<Program>();
+        IConfiguration configuration = builder.Build();
+
+        services.Configure<AzureSearchOptions>(
+            configuration.GetSection("AzureSearchOptions"));
+        services.AddTransient<IAzureSearchService, AzureSearchService>();
+
+        return configuration;
     }
 }

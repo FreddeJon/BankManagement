@@ -1,4 +1,5 @@
-﻿using WebApp.Pages.Customers;
+﻿using Application.Features.AzureSearch.Query.GetCustomersUsingAzureSearchService;
+using WebApp.Pages.Customers;
 using WebApp.Pages.Customers.Accounts.Transaction;
 using IndexModel = WebApp.Pages.Customers.Accounts.IndexModel;
 
@@ -18,7 +19,7 @@ public class MapperProfile : Profile
 
 
         // Pages/Shared/Components/CustomerTable
-        CreateMap<CustomerDto, CustomerTable.CustomerViewModel>()
+        CreateMap<SearchCustomerDto, CustomerTable.CustomerViewModel>()
             .ReverseMap();
 
 

@@ -14,7 +14,7 @@ public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, Sta
     {
         var response = new StatisticsBaseResponse();
 
-        var customers = await _context.Customers.Include(x => x.Accounts).ToListAsync();
+        var customers = await _context.Customers.Include(x => x.Accounts).ToListAsync(cancellationToken: cancellationToken);
         var totalCount = customers.Count;
 
         response.Overview = await CreateStatistic(customers, totalCount, "");
@@ -39,7 +39,7 @@ public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, Sta
             .OrderByDescending(x => x.Accounts.Sum(b => b.Balance)).Take(10).ToList());
 
         return response;
-         
+
     }
 
 

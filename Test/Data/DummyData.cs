@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain.Entities;
 
 namespace UnitTest.Data;
-public class DummyData
+public static class DummyData
 {
     public static List<Transaction> GetDummyTransactions()
     {
@@ -32,7 +31,7 @@ public class DummyData
         return transactions;
     }
 
-    public static List<Customer> GetDummyCustomers()
+    public static IEnumerable<Customer> GetDummyCustomers()
     {
         var customers = new List<Customer>
         {

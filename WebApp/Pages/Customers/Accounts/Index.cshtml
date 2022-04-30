@@ -154,7 +154,7 @@
 
     async function fetchMore() {
 
-        const response = await fetch(`Customers/${@Model.Customer.Id}/Account/${@Model.Account.Id}?handler=LoadTransactions&pageNo=${pageNo}&accountId=${@Model.Account.Id}`);
+        const response = await fetch(`Customers/${@Model.Customer.Id}/Accounts/${@Model.Account.Id}?handler=LoadTransactions&pageNo=${pageNo}&accountId=${@Model.Account.Id}`);
 
         const json = await response.json();
 

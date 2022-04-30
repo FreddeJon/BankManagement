@@ -1,4 +1,6 @@
 ﻿
+using AzureSearch;
+
 namespace WebApp;
 public static class RegisterServices
 {
@@ -7,10 +9,10 @@ public static class RegisterServices
 
         builder.Services.ConfigurePersistenceServices(builder.Configuration);
         builder.Services.ConfigureApplicationServices();
-
-
+        builder.Services.ConfigureAzureSearch();
 
         builder.Services.AddResponseCaching();
+
 
 
         builder.Services.AddAuthorization(options =>

@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Customer.Commands;
+﻿namespace Application.Features.Customer.Commands.CreateCustomer;
 
 public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
 {

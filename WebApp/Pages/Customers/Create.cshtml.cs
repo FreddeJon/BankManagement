@@ -1,4 +1,5 @@
-using Application.Features.Customer.Commands;
+using Application.Features.Customer.Commands.CreateCustomer;
+
 #pragma warning disable CS8618
 
 namespace WebApp.Pages.Customers;

@@ -11,6 +11,7 @@
                 <form asp-page-handler="Create" method="POST">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-row">
+                        <input type="hidden" asp-for="Customer.Id"/>
                         <div class="form-group col-md-6">
                             <label asp-for="Customer.Givenname">First Name</label>
                             <input asp-for="Customer.Givenname" class="form-control" placeholder="First Name">

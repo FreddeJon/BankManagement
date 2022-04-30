@@ -1,74 +1,82 @@
-﻿using Azure;
-using Azure.Search.Documents;
-using Azure.Search.Documents.Indexes;
-using Azure.Search.Documents.Indexes.Models;
-using AzureSearch.Entities;
-using Persistence;
-
-namespace AzureSearch.Services;
-public class AzureSearchService
+﻿namespace AzureSearch.Services;
+public class AzureSearchService : IAzureSearchService
 {
     private readonly ApplicationDbContext _context;
-    private const string ServiceName = "bankmanager-search";
-    private const string IndexName = "customers";
-    private const string ApiKey = "C1F5A76E23B1F3B9437682452D8FF0A4";
-    public SearchIndexClient AdminClient { get; set; }
-    public SearchClient SearchClient { get; set; }
+    private readonly AzureSearchOptions _azureOptions;
+    private readonly AzureKeyCredential _credential;
+    private readonly Uri _serviceEndpoint;
+    private readonly SearchIndexClient _adminClient;
+
+    public SearchClient SearchClient { get; }
 
 
-    public AzureSearchService(ApplicationDbContext context)
+
+    public AzureSearchService(ApplicationDbContext context, IOptions<AzureSearchOptions> options)
     {
         _context = context;
-
-        // Create a SearchIndexClient to send create/delete index commands
-        var serviceEndpoint = new Uri($"https://{ServiceName}.search.windows.net/");
-        var credential = new AzureKeyCredential(ApiKey);
-        AdminClient = new SearchIndexClient(serviceEndpoint, credential);
-        // Create a SearchClient to load and query documents
-        SearchClient = new SearchClient(serviceEndpoint, IndexName, credential);
+        _azureOptions = options.Value;
+        _credential = new AzureKeyCredential(_azureOptions.ApiKey);
+        _serviceEndpoint = new Uri($"https://{_azureOptions.ServiceName}.search.windows.net/");
+        _adminClient = CreateAdminClient();
+        SearchClient = CreateSearchClient();
     }
 
 
-    public void CreateIndex()
+    private SearchIndexClient CreateAdminClient()
     {
+        return new SearchIndexClient(_serviceEndpoint, _credential);
+    }
+
+    private SearchClient CreateSearchClient()
+    {
+        return new SearchClient(_serviceEndpoint, _azureOptions.IndexName, _credential);
+    }
+
+    public async Task CreateIndex()
+    {
+        Console.WriteLine("Deleting old index");
+        await _adminClient.DeleteIndexAsync(_azureOptions.IndexName);
+        Console.WriteLine("Index deleted");
+
         var fieldBuilder = new FieldBuilder();
-        var searchFields = fieldBuilder.Build(typeof(Customer));
+        var searchFields = fieldBuilder.Build(typeof(SearchCustomer));
 
-        var definition = new SearchIndex(IndexName, searchFields);
+        var definition = new SearchIndex(_azureOptions.IndexName, searchFields);
 
-        var suggester = new SearchSuggester("sg", new[] { "Givenname", "City/Country", "Address/City", "Address" });
+        var suggester = new SearchSuggester("sg", "Givenname", "Surname", "City", "Country");
         definition.Suggesters.Add(suggester);
-
-        AdminClient.CreateOrUpdateIndex(definition);
+        Console.WriteLine("Creating new index");
+        await _adminClient.CreateOrUpdateIndexAsync(definition);
+        Console.WriteLine("Index created");
     }
 
 
+    public async Task<bool> UploadDocuments()
+    {
+
+        Console.WriteLine("Writing Batch");
+
+        var customers = _context.Customers.ToList();
+
+        var actions = new List<IndexDocumentsAction<SearchCustomer>>();
+
+        customers.ForEach(x => actions.Add(new IndexDocumentsAction<SearchCustomer>(IndexActionType.Upload, new SearchCustomer() { City = x.City, Country = x.Country, Streetaddress = x.Streetaddress, Givenname = x.Givenname, Surname = x.Surname, Id = x.Id.ToString(), NationalId = x.NationalId })));
+
+        var batch = IndexDocumentsBatch.Create(actions.ToArray());
+
+        try
+        {
+            await SearchClient.IndexDocumentsAsync(batch);
+            Console.WriteLine("Batch Completed");
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Failed to index some of the documents: {0}");
+            return false;
+        }
 
 
 
-    //public void UploadDocuments()
-    //{
-
-    //    var customers = _context.Customers.ToList();
-
-    //    var actions = new List<IndexDocumentsAction<Customer>>();
-
-    //    customers.ForEach(x => actions.Add(new IndexDocumentsAction<Customer>(IndexActionType.Upload, new Customer() { City = x.City, Country = x.Country, Streetaddress = x.Streetaddress, Givenname = x.Givenname, Surname = x.Surname, Id = x.Id })));
-
-    //    var batch = IndexDocumentsBatch.Create(actions.ToArray());
-
-
-    //    try
-    //    {
-    //        IndexDocumentsResult result = SearchClient.IndexDocuments(batch);
-    //    }
-    //    catch (Exception)
-    //    {
-    //        // If for some reason any documents are dropped during indexing, you can compensate by delaying and
-    //        // retrying. This simple demo just logs the failed document keys and continues.
-    //        Console.WriteLine("Failed to index some of the documents: {0}");
-    //    }
-    //}
-
-
+        return true;
+    }
 }

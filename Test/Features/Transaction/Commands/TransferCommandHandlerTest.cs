@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Features.Transactions.Commands.Transfer;
+﻿using Application.Features.Transactions.Commands.Transfer;
 
 namespace UnitTest.Features.Transaction.Commands;
 public class TransferCommandHandlerTest
@@ -130,7 +127,7 @@ public class TransferCommandHandlerTest
         accountTo.Balance.ShouldBe(1000);
 
         response.Status.ShouldBe(StatusCode.Error);
-        response.Errors.Count.ShouldBeGreaterThan(0);
+        response.Errors?.Count.ShouldBeGreaterThan(0);
         response.ShouldBeOfType<TransferResponse>();
     }
 

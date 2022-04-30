@@ -1,8 +1,10 @@
-﻿@using Application.Features.Customer.Query.GetCustomersPaginated
-@using Application.Infrastructure.Paging
+﻿@using Application.Infrastructure.Paging
+@using Application.Features.AzureSearch.Query.GetCustomersUsingAzureSearchService
 @inject IMapper Mapper
 @inject NavigationManager NavManager
 @inject IMediator Mediator
+
+
 
 @if (CustomersList is null)
 {
@@ -31,13 +33,13 @@ else
                                 <table class="table mb-0 table-hover">
                                     <thead>
                                     <tr>
-                                        <th class="cursor-pointer" @onclick='() => HandleSort("Id")'>Customer <span class="fa @(SetSortIcon("Id"))"></span></th>
-                                        <th class="cursor-pointer" @onclick='() => HandleSort("Givenname")'>Name <span class="fa @(SetSortIcon("Givenname"))"></span></th>
-                                        <th>PIN</th>
-                                        <th class="cursor-pointer" @onclick='() => HandleSort("Country")'>Country <span class="fa @(SetSortIcon("Country"))"></span></th>
+                                        <th>Customer ID</th>
+                                        <th>National ID</th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Firstname")'>First Name <span class="fa @(SetSortIcon("Firstname"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Lastname")'>Last Name <span class="fa @(SetSortIcon("Lastname"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Address")'>Country <span class="fa @(SetSortIcon("Address"))"></span></th>
                                         <th class="cursor-pointer" @onclick='() => HandleSort("City")'>City <span class="fa @(SetSortIcon("City"))"></span></th>
-                                        <th class="cursor-pointer" @onclick='() => HandleSort("Streetaddress")'>Address <span class="fa @(SetSortIcon("Streetaddress"))"></span></th>
-                                        <th class="cursor-pointer" @onclick='() => HandleSort("Balance")'>Balance <span class="fa @(SetSortIcon("Balance"))"></span></th>
+                                        <th class="cursor-pointer" @onclick='() => HandleSort("Country")'>Address <span class="fa @(SetSortIcon("Country"))"></span></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -127,7 +129,9 @@ else
 
     private async Task LoadCustomers()
     {
-        var response = await Mediator.Send(new GetCustomerPaginatedQuery() {SortColumn = SortColumn, Page = CurrentPage, Limit = Limit, Search = Search, SortingOrder = SortOrder});
+
+        var response = await Mediator.Send(new GetCustomersFromAzureSearchQuery() {SortColumn = SortColumn, Page = CurrentPage, Search = Search, SortingOrder = SortOrder});
+
 
         TotalPages = response.TotalPage;
 
@@ -152,12 +156,12 @@ else
     public class CustomerViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string NationalId { get; set; } = null!;
-        public string Country { get; set; } = null!;
+        public string Firstname { get; set; } = null!;
+        public string Lastname { get; set; } = null!;
+        public string Address { get; set; } = null!;
         public string City { get; set; } = null!;
-        public string Streetaddress { get; set; } = null!;
-        public decimal Balance { get; set; }
+        public string Country { get; set; } = null!;
+        public string NationalId { get; set; } = null!;
     }
 }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Features.Transactions.Commands.Withdraw;
+﻿using Application.Features.Transactions.Commands.Withdraw;
 
 namespace UnitTest.Features.Transaction.Commands;
 public class WithdrawCommandHandlerTest

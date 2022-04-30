@@ -5,20 +5,18 @@ namespace WebApp.Pages.Users;
 public class IndexModel : PageModel
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public IndexModel(UserManager<IdentityUser> userManager, ApplicationDbContext context, IMapper mapper)
+    public IndexModel(UserManager<IdentityUser> userManager, IMapper mapper)
     {
         _userManager = userManager;
-        _context = context;
         _mapper = mapper;
     }
 
-    public List<UserViewModel> Users { get; private set; }
+    public List<UserViewModel> Users { get; private set; } = null!;
 
     [TempData]
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     public async Task OnGet()
     {
@@ -43,15 +41,15 @@ public class IndexModel : PageModel
         await _userManager.DeleteAsync(user);
 
 
-       return RedirectToPage();
+        return RedirectToPage();
     }
 
 
     public class UserViewModel
     {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Username { get; set; }
+        public string Id { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Username { get; set; } = null!;
         public bool IsAdmin { get; set; }
         public bool IsCashier { get; set; }
     }

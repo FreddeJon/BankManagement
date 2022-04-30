@@ -24,7 +24,7 @@ public class IndexModel : PageModel
 
 
     public async Task<IActionResult> OnGet(int customerId, int accountId)
-    
+
     {
         var response = await _mediator.Send(new GetAccountAndCustomerQuery() { AccountId = accountId, CustomerId = customerId });
 

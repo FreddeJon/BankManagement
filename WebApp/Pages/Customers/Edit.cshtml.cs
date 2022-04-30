@@ -1,3 +1,4 @@
+using Application.Features.Customer.Commands.EditCustomer;
 using Application.Features.Customer.Query.GetCustomerByIdIncludeAccounts;
 
 namespace WebApp.Pages.Customers
@@ -37,12 +38,19 @@ namespace WebApp.Pages.Customers
         {
             SetUpDropdowns();
             if (!ModelState.IsValid) return Page();
+
+            var response = await _mediator.Send(new EditCustomerCommand() { Customer = _mapper.Map<CustomerDto>(Customer) });
+
+            if (response.Status == Application.Responses.StatusCode.Error)
             {
-               
+                response.Errors?.ForEach(x => ModelState.AddModelError(x.PropertyName, x.ErrorMessage));
+
+
+                return Page();
             }
 
-
-            return Page();
+            TempData["Message"] = $"Edited customer!";
+            return Redirect($"/Customers/{id}");
         }
 
         public void SetUpDropdowns()
@@ -64,48 +72,51 @@ namespace WebApp.Pages.Customers
 
         public class EditCustomerModel
         {
+            [Required]
+            public int Id { get; set; }
+
             [Required(ErrorMessage = "First Name is required")]
             [MaxLength(50)]
-            public string Givenname { get; set; }
+            public string Givenname { get; set; } = null!;
 
             [Required(ErrorMessage = "Last Name is required")]
             [MaxLength(50)]
-            public string Surname { get; set; }
+            public string Surname { get; set; } = null!;
 
             [Required(ErrorMessage = "Address is required")]
             [MaxLength(50)]
-            public string Streetaddress { get; set; }
+            public string Streetaddress { get; set; } = null!;
 
             [Required(ErrorMessage = "{0} is required")]
             [MaxLength(50)]
-            public string City { get; set; }
+            public string City { get; set; } = null!;
 
 
             [Required(ErrorMessage = "{0} is required")]
             [MaxLength(10)]
-            public string Zipcode { get; set; }
+            public string Zipcode { get; set; } = null!;
 
 
             [Required(ErrorMessage = "Country is required")]
             [MaxLength(2)]
-            public string CountryCode { get; set; }
+            public string CountryCode { get; set; } = null!;
 
 
 
             [Required(ErrorMessage = "Personal Identification Number is required")]
             [MaxLength(20)]
-            public string NationalId { get; set; }
+            public string NationalId { get; set; } = null!;
 
 
             [Required(ErrorMessage = "{0} is required")]
-            public string Telephone { get; set; }
+            public string Telephone { get; set; } = null!;
 
 
 
             [Required(ErrorMessage = "Email is required")]
 
             [MaxLength(50)]
-            public string EmailAddress { get; set; }
+            public string EmailAddress { get; set; } = null!;
 
 
             [Required(ErrorMessage = "{0} is required")]

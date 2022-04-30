@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Features.Transactions.Commands.Deposit;
+﻿using Application.Features.Transactions.Commands.Deposit;
 
 namespace UnitTest.Features.Transaction.Commands;
 public class DepositCommandHandlerTest
@@ -32,7 +29,6 @@ public class DepositCommandHandlerTest
 
 
         var response = await _sut.Handle(new DepositCommand() { AccountId = accountId, Amount = amount, Operation = operation }, new CancellationToken());
-
 
         var account = await _context.Accounts.FindAsync(accountId);
 
