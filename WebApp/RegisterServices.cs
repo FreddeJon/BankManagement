@@ -1,5 +1,6 @@
 ﻿
 using AzureSearch;
+using Microsoft.OpenApi.Models;
 
 namespace WebApp;
 public static class RegisterServices
@@ -12,6 +13,8 @@ public static class RegisterServices
         builder.Services.ConfigureAzureSearch();
 
         builder.Services.AddResponseCaching();
+
+        builder.Services.AddControllers();
 
 
 
