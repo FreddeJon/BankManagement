@@ -1,1 +1,1 @@
-# BankManagement.v1
+# BankManagement
