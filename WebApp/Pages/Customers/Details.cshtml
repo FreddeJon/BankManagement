@@ -76,49 +76,40 @@ else
                     <div class="col-lg-8">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="row pb-0 noselect">
-                                    <div class="col-sm-2">
-                                        <p class="mb-0">Accounts</p>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Type</p>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <p class="mb-0">Balance</p>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Latest transaction</p>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <p class="mb-0">Total Balance @Model.Customer.Balance.ToString("C")</p>
+                                <div class="active-member">
+                                    <div class="table-responsive">
+                                        <strong>Total Balance @Model.Customer.Balance.ToString("C")</strong>
+                                        <table class="table mb-0 table-hover table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>#Account</th>
+                                                <th>Type</th>
+                                                <th>Balance</th>
+                                                <th>Latest transaction</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var account in Model.Customer.Accounts)
+                                            {
+                                                <tr class="cursor-pointer" onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@account.Id}`">
+                                                    <td>@account.Id</td>
+                                                    <td>@account.AccountType</td>
+                                                    <td>@account.Balance.ToString("C")</td>
+                                                    @if (account.LatestTransaction != null)
+                                                    {
+                                                        <td> @account.LatestTransaction?.ToString("s") </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>N/A</td>
+                                                    }
+                                                </tr>
+                                            }
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                @foreach (var account in Model.Customer.Accounts)
-                                {
-                                    <hr>
-                                    <div class="row cursor-pointer pb-3 pt-3" onclick="window.location = `/Customers/${@Model.Customer.Id}/Accounts/${@account.Id}`">
-                                        <div class="col-sm-2">
-                                            <p class="mb-0">#@account.Id</p>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">@account.AccountType</p>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <p class="mb-0">@account.Balance.ToString("C")</p>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            @if (account.LatestTransaction != null)
-                                            {
-                                                <p class="mb-0">  @account.LatestTransaction?.ToString("s")  </p>
-                                            }
-                                            else
-                                            {
-                                                <p class="mb-0">N/A</p>
-                                            }
-                                        </div>
-                                    </div>
-                                }
                             </div>
                         </div>
                     </div>

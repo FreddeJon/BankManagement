@@ -4,7 +4,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.ConfigureServices();
-
 var app = builder.Build();
 
 await app.Services.InitializeDataAsync();
@@ -27,7 +26,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
 app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
@@ -41,7 +39,6 @@ app.UseResponseCaching();
 app.UseEndpoints(endpoint =>
 {
     endpoint.MapControllers();
-    endpoint.MapBlazorHub();
     endpoint.MapRazorPages();
 });
 

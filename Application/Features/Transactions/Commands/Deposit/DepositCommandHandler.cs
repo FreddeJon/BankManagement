@@ -32,7 +32,7 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, DepositResp
             Operation = request.Operation,
             Type = "Debit",
             NewBalance = account!.Balance + request.Amount,
-            Date = DateTime.Now
+            Date = DateTime.UtcNow
         };
 
         account.Balance = transaction.NewBalance;

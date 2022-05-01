@@ -35,7 +35,7 @@ public class WithdrawCommandHandler : IRequestHandler<WithdrawCommand, WithdrawR
                 Operation = request.Operation,
                 Type = "Credit",
                 NewBalance = account.Balance - request.Amount,
-                Date = DateTime.Now
+                Date = DateTime.UtcNow
             };
 
             account.Balance = transaction.NewBalance;

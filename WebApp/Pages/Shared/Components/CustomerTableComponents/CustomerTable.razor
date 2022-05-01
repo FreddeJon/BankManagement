@@ -130,7 +130,7 @@ else
     private async Task LoadCustomers()
     {
 
-        var response = await Mediator.Send(new GetCustomersFromAzureSearchQuery() {SortColumn = SortColumn, Page = CurrentPage, Search = Search, SortingOrder = SortOrder});
+        var response = await Mediator.Send(new GetCustomersFromAzureSearchQuery() {SortColumn = SortColumn, Page = CurrentPage, Search = Search});
 
 
         TotalPages = response.TotalPage;

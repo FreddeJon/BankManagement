@@ -31,7 +31,6 @@ public static class RegisterServices
             ops.Conventions.AllowAnonymousToAreaPage("Identity", "/Accounts/Login");
         });
 
-        builder.Services.AddServerSideBlazor();
 
         builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }

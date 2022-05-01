@@ -23,6 +23,12 @@ public class MapperProfile : Profile
             .ReverseMap();
 
 
+
+
+
+        // Pages/Customers/Index
+        CreateMap<SearchCustomerDto, Pages.Customers.IndexModel.CustomerViewModel>()
+            .ReverseMap();
         //  Pages/Customers/Details
         CreateMap<AccountDto, DetailsModel.AccountViewModel>();
         CreateMap<CustomerDto, DetailsModel.CustomerViewModel>();

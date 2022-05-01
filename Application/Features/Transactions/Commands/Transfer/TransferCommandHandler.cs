@@ -26,11 +26,11 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, TransferR
         var fromAccount = await _context.Accounts.FindAsync(new object?[] { request.FromAccountId }, cancellationToken: cancellationToken);
         var toAccount = await _context.Accounts.FindAsync(new object?[] { request.ToAccountId }, cancellationToken: cancellationToken);
 
-        var fromAccountTransaction = new Transaction() { Amount = request.Amount, Operation = "Transfer", Type = "Credit", Date = DateTime.Now, NewBalance = fromAccount!.Balance -= request.Amount };
+        var fromAccountTransaction = new Transaction() { Amount = request.Amount, Operation = "Transfer", Type = "Credit", Date = DateTime.UtcNow, NewBalance = fromAccount!.Balance -= request.Amount };
         fromAccount.Transactions.Add(fromAccountTransaction);
         fromAccount.Balance = fromAccountTransaction.NewBalance;
 
-        var toAccountTransaction = new Transaction() { Amount = request.Amount, Operation = "Transfer", Type = "Debit", Date = DateTime.Now, NewBalance = toAccount!.Balance += request.Amount };
+        var toAccountTransaction = new Transaction() { Amount = request.Amount, Operation = "Transfer", Type = "Debit", Date = DateTime.UtcNow, NewBalance = toAccount!.Balance += request.Amount };
         toAccount.Transactions.Add(toAccountTransaction);
         toAccount.Balance = toAccountTransaction.NewBalance;
         await _context.SaveChangesAsync(cancellationToken);

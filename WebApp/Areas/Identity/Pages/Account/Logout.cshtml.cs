@@ -27,7 +27,8 @@ public class LogoutModel : PageModel
         {
             // This needs to be a redirect so that the browser performs a new
             // request and the identity for the user gets updated.
-            return Redirect("~/");
+
+            return Redirect("~/Identity/Account/Login?ReturnUrl=%2F");
         }
     }
 

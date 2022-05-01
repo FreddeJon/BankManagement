@@ -64,7 +64,7 @@
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-                <component type="typeof(Pages.Shared.Components.SearchCustomerNumber.CustomerNumberSearch)" render-mode="ServerPrerendered" />
+                <partial name="Partials/_GoToCustomerPartial"/>
             </div>
         </div>
         <!--**********************************
@@ -153,8 +153,6 @@
     <script src="js/styleSwitcher.js"></script>
 
 
-    <!--Rendered Scripts-->
-    <script src="_framework/blazor.server.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

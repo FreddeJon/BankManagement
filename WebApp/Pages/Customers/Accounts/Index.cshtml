@@ -40,7 +40,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
                                 <h6 class="mb-0">Accounts</h6>
                                 <span class="text-secondary">@Model.Account.Id</span>
-                            </li>                           
+                            </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap bg-light">
                                 <h6 class="mb-0">Transactions</h6>
                                 <span class="text-secondary">@Model.TotalTransactions</span>
@@ -81,54 +81,40 @@
                                     </div>
                                 </div>
                             </nav>
-                            <div class="row pb-0 noselect">
-                                <div class="col-sm-1">
-                                    <p class="mb-0">#</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <p class="mb-0">Type</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <p class="mb-0">Operation</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <p class="mb-0">Amount</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <p class="mb-0">New Balance</p>
-                                </div>
 
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Date</p>
+
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <strong>Total Balance @Model.Account.Balance.ToString("C")</strong>
+                                    <table class="table mb-0 table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#Transaction</th>
+                                                <th>Type</th>
+                                                <th>Operation</th>
+                                                <th>Amount</th>
+                                                <th>New Balance</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="transaction-container">
+                                            @foreach (var transaction in Model.Account.Transactions)
+                                            {
+                                                <tr>
+                                                    <td>@transaction.Id</td>
+                                                    <td>@transaction.Type</td>
+                                                    <td>@transaction.Operation</td>
+                                                    <td class="@(transaction.Type == "Debit" ? "text-success" : "text-danger")">@(transaction.Type == "Debit" ? "+" : "-")@transaction.Amount</td>
+                                                    <td>@transaction.NewBalance</td>
+                                                    <td>@transaction.Date</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div id="transaction-container">
-                                @foreach (var transaction in Model.Account.Transactions)
-                                {
-                                    <hr>
-                                    <div class="row pb-1 pt-1">
-                                        <div class="col-sm-1">
-                                            <p class="mb-0" data-toggle="tooltip" data-placement="left" title="@transaction.Id">#</p>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <p class="mb-0">@transaction.Type</p>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <p class="mb-0">@transaction.Operation</p>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <p class=" @(transaction.Type == "Debit" ? "text-success" : "text-danger") mb-0">@(transaction.Type == "Debit" ? "+" : "-")@transaction.Amount</p>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <p class="mb-0">@transaction.NewBalance</p>
-                                        </div>
 
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">@transaction.Date</p>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
                             @if (Model.TotalPage > 1)
                             {
                                 <a id="loadmore" class="btn" href="javascript:fetchMore();">See more</a>
@@ -172,28 +158,14 @@
     function addTransaction(element) {
         document.querySelector('#transaction-container').innerHTML +=
             `
-          <hr>
-                             <div class="row pb-1 pt-1">
-                                 <div class="col-sm-1">
-                                     <p class="mb-0" data-toggle="tooltip" data-placement="left" title="${element.id}">#</p>
-                                 </div>
-                                 <div class="col-sm-2">
-                                     <p class="mb-0">${element.type}</p>
-                                 </div>
-                                 <div class="col-sm-2">
-                                     <p class="mb-0">${element.operation}</p>
-                                 </div>
-                                 <div class="col-sm-2">
-                                     <p class=" ${element.type === "Debit" ? "text-success" : "text-danger"} mb-0"> ${element.type === "Debit" ? "+" : "-"} ${element.amount}</p>
-                                 </div>
-                                 <div class="col-sm-2">
-                                     <p class="mb-0">${element.newBalance}</p>
-                                 </div>
-
-                                 <div class="col-sm-3">
-                                     <p class="mb-0">${element.date}</p>
-                                 </div>
-                             </div>
+            <tr>
+            <td>${element.id}</td>
+            <td>${element.type}</td>
+            <td>${element.operation}</td>
+            <td class="${element.type === "Debit" ? "text-success" : "text-danger"}">${element.type === "Debit" ? "+" : "-"} ${element.amount}</td>
+            <td>${element.newBalance}</td>
+            <td>${element.date}</td>
+            </tr>
          `;
     }
 

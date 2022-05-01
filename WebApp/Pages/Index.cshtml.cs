@@ -14,13 +14,13 @@ public class IndexModel : PageModel
     }
     public IReadOnlyList<CustomerViewModel> Customers { get; set; }
 
-    public Statistic Finland { get; set; } = null!;
+    public GetStatisticsQueryHandler.Statistic Finland { get; set; } = null!;
 
-    public Statistic Norway { get; set; } = null!;
+    public GetStatisticsQueryHandler.Statistic Norway { get; set; } = null!;
 
-    public Statistic Overview { get; set; } = null!;
+    public GetStatisticsQueryHandler.Statistic Overview { get; set; } = null!;
 
-    public Statistic Sweden { get; set; } = null!;
+    public GetStatisticsQueryHandler.Statistic Sweden { get; set; } = null!;
 
 
     public async Task<IActionResult> OnGet(string? countryCode)

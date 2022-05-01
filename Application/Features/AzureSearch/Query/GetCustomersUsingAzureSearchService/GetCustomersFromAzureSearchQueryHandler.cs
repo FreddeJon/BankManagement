@@ -16,6 +16,10 @@ public class GetCustomersFromAzureSearchQueryHandler : IRequestHandler<GetCustom
     public async Task<GetCustomersResponse> Handle(GetCustomersFromAzureSearchQuery request, CancellationToken cancellationToken)
     {
         var response = new GetCustomersResponse();
+
+
+        var page = request.Page > 0 ? request.Page < 100000 ? request.Page : 1 : 1;
+
         var options = new SearchOptions
         {
             IncludeTotalCount = true,
@@ -24,7 +28,7 @@ public class GetCustomersFromAzureSearchQueryHandler : IRequestHandler<GetCustom
         };
 
         // If sortColumn is empty add "" else add column and order
-        options.OrderBy.Add((GetCol(request.SortColumn) == "") ? "" : $"{GetCol(request.SortColumn)} {GetOrder(request.SortingOrder.ToString())}");
+        options.OrderBy.Add((GetCol(request.SortColumn) == "") ? "" : $"{GetCol(request.SortColumn)} {GetOrder(request.SortingOrder)}");
 
         var searchResponse = await _azureSearchService.SearchClient.SearchAsync<SearchCustomer>(request.Search, options, cancellationToken);
 
@@ -57,7 +61,7 @@ public class GetCustomersFromAzureSearchQueryHandler : IRequestHandler<GetCustom
             _ => "asc"
         };
     }
-    private static string GetCol(string currentCol)
+    private static string GetCol(string? currentCol)
     {
         if (currentCol is null) return "";
 
