@@ -37,8 +37,12 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         await _context.Customers.AddAsync(customer, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         response.CustomerId = customer.Id;
+        var password = $"{request.Customer?.Givenname}{request.Customer?.Surname}1".ToLower();
+        var user = await _userManager.SeedUserAsync(request.Customer?.EmailAddress.ToLower(), password, new[] { nameof(ApplicationRoles.Customer) });
+        _context.CustomerUser.Add(new CustomerUser() { CustomerId = customer.Id, UserId = user!.Id });
+        _context.SaveChanges();
 
-       await _userManager.SeedUserAsync(request.Customer?.EmailAddress, $"{request.Customer?.Givenname}{request.Customer?.Surname}1", new []{nameof(ApplicationRoles.Customer)});
+
 
 #pragma warning disable CS4014
         _azureSearchService.UploadDocuments();

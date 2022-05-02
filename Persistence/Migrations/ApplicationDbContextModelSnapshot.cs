@@ -137,6 +137,26 @@ namespace Persistence.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Domain.Entities.CustomerUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")

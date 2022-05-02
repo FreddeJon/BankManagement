@@ -54,7 +54,7 @@ public static class DataInitializer
         }
     }
 
-    public static async Task SeedUserAsync(this UserManager<IdentityUser> userManager, string email, string password, IEnumerable<string> roles)
+    public static async Task<IdentityUser?> SeedUserAsync(this UserManager<IdentityUser> userManager, string? email, string password, IEnumerable<string> roles)
     {
         var user = await userManager.FindByEmailAsync(email);
 
@@ -71,7 +71,11 @@ public static class DataInitializer
 
             await userManager.CreateAsync(user, password);
             await userManager.AddToRolesAsync(user, roles);
+
+            return user;
         }
+
+        return null;
     }
 
     private static async Task SeedRoleAsync(RoleManager<IdentityRole> roleManager, string role)
@@ -103,22 +107,44 @@ public static class DataInitializer
             await context.Customers.AddRangeAsync(customers);
             await context.SaveChangesAsync();
         }
+
         // Create login for customers
         if (databaseOptions.SeedCustomerUserAccount)
         {
-            var getCustomers = await context.Customers.ToListAsync();
+            await context.GenerateAccountsForCustomers(userManager);
+        }
+    }
 
 
-            foreach (var customer in getCustomers)
+
+    private static async Task GenerateAccountsForCustomers(this ApplicationDbContext context,
+        UserManager<IdentityUser> userManager)
+    {
+
+        var getCustomers = await context.Customers.AsNoTracking().ToListAsync();
+
+        foreach (var customer in getCustomers)
+        {
+            var user = await userManager.FindByEmailAsync(customer.EmailAddress);
+
+            if (user is null)
             {
-                var user = await userManager.FindByEmailAsync(customer.EmailAddress);
+                var password = $"{customer.Givenname}{customer.Surname}1".ToLower();
+                user = await userManager.SeedUserAsync(email: customer.EmailAddress.ToLower(), password, new[] { nameof(ApplicationRoles.Customer) });
 
-                if (user is null)
+                string id = user!.Id;
+                var customerUser = new CustomerUser
                 {
-                    await userManager.SeedUserAsync(email: customer.EmailAddress, $"{customer.Givenname}{customer.Surname}1", new[] { nameof(ApplicationRoles.Customer) });
-                }
+                    CustomerId = customer.Id,
+                    UserId = id
+                };
+                context.CustomerUser.Add(customerUser); 
+                // ReSharper disable once MethodHasAsyncOverload
+                context.SaveChanges();
+                Debug.WriteLine($"Created login for: {user.Email} with password: {password}");
             }
         }
+
     }
     private static Customer GenerateCustomer()
     {

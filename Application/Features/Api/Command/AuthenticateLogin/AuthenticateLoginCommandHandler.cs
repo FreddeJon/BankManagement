@@ -41,7 +41,7 @@ public class AuthenticateLoginCommandHandler : IRequestHandler<AuthenticateLogin
             return response;
         }
 
-        var claims = GetClaimsForUser(user);
+        var claims = await GetClaimsForUser(user);
         var generatedSecurityToken = CreateToken(claims);
 
 
@@ -63,14 +63,21 @@ public class AuthenticateLoginCommandHandler : IRequestHandler<AuthenticateLogin
         ); ;
     }
 
-    private List<Claim> GetClaimsForUser(IdentityUser user)
+    private async Task<List<Claim>> GetClaimsForUser(IdentityUser user)
     {
+
+
+
         var authClaims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+        var roles = await _userManager.GetRolesAsync(user);
+
+        authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
 
         return authClaims;
     }

@@ -20,6 +20,12 @@ namespace Persistence.Migrations
                 oldMaxLength: 50);
 
             migrationBuilder.AddColumn<string>(
+                name: "CreatedBy",
+                table: "Transactions",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
                 name: "LastModifiedBy",
                 table: "Transactions",
                 type: "nvarchar(max)",
@@ -32,6 +38,12 @@ namespace Persistence.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
+                name: "CreatedBy",
+                table: "Customers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
                 name: "LastModifiedBy",
                 table: "Customers",
                 type: "nvarchar(max)",
@@ -41,6 +53,12 @@ namespace Persistence.Migrations
                 name: "LastModifiedDate",
                 table: "Customers",
                 type: "datetime2",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "CreatedBy",
+                table: "Accounts",
+                type: "nvarchar(max)",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
@@ -59,6 +77,10 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "CreatedBy",
+                table: "Transactions");
+
+            migrationBuilder.DropColumn(
                 name: "LastModifiedBy",
                 table: "Transactions");
 
@@ -67,12 +89,20 @@ namespace Persistence.Migrations
                 table: "Transactions");
 
             migrationBuilder.DropColumn(
+                name: "CreatedBy",
+                table: "Customers");
+
+            migrationBuilder.DropColumn(
                 name: "LastModifiedBy",
                 table: "Customers");
 
             migrationBuilder.DropColumn(
                 name: "LastModifiedDate",
                 table: "Customers");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedBy",
+                table: "Accounts");
 
             migrationBuilder.DropColumn(
                 name: "LastModifiedBy",

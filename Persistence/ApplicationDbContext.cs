@@ -11,12 +11,13 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<CustomerUser> CustomerUser { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IUserService userService)
         : base(options)
     {
         _userService = userService;
     }
-
+    
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
 
