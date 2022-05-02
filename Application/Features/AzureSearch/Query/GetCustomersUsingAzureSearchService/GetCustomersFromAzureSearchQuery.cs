@@ -1,6 +1,4 @@
-﻿using Application.Infrastructure.Paging;
-
-namespace Application.Features.AzureSearch.Query.GetCustomersUsingAzureSearchService;
+﻿namespace Application.Features.AzureSearch.Query.GetCustomersUsingAzureSearchService;
 public class GetCustomersFromAzureSearchQuery : IRequest<GetCustomersResponse>
 {
     public string? Search { get; set; }

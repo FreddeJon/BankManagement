@@ -13,3 +13,4 @@ global using Persistence;
 global using Persistence.Models;
 global using WebApp;
 global using WebApp.Pages.Shared.Components.CustomerTableComponents;
+global using WebApp.Services;

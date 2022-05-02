@@ -25,15 +25,13 @@ public static class DataInitializer
         await context.Database.MigrateAsync();
 
 
-        if (databaseOptions.SeedDatabase)
-        {
-            await context.SeedDataAsync(databaseOptions);
-        }
+
 
         if (accountOptions.SeedAccounts)
         {
             await SeedRoleAsync(roleManager, nameof(ApplicationRoles.Admin));
             await SeedRoleAsync(roleManager, nameof(ApplicationRoles.Cashier));
+            await SeedRoleAsync(roleManager, nameof(ApplicationRoles.Customer));
 
             var adminOptions = accountOptions.AdminOptions;
             if (adminOptions?.Email is null || adminOptions.Password is null)
@@ -48,10 +46,15 @@ public static class DataInitializer
 
             await userManager.SeedUserAsync(userOptions.Email, userOptions.Password, new[] { nameof(ApplicationRoles.Cashier) });
 
+
+            if (databaseOptions.SeedDatabase)
+            {
+                await context.SeedDataAsync(databaseOptions, userManager);
+            }
         }
     }
 
-    private static async Task SeedUserAsync(this UserManager<IdentityUser> userManager, string email, string password, IEnumerable<string> roles)
+    public static async Task SeedUserAsync(this UserManager<IdentityUser> userManager, string email, string password, IEnumerable<string> roles)
     {
         var user = await userManager.FindByEmailAsync(email);
 
@@ -80,12 +83,13 @@ public static class DataInitializer
     }
 
 
-    private static async Task SeedDataAsync(this ApplicationDbContext context, DatabaseOptions databaseOptions)
+    private static async Task SeedDataAsync(this ApplicationDbContext context, DatabaseOptions databaseOptions,
+        UserManager<IdentityUser> userManager)
     {
+        var customers = new List<Customer>();
         while (await context.Customers.CountAsync() < databaseOptions.CustomersToSeed)
         {
             var num = databaseOptions.CustomersToSeed - await context.Customers.CountAsync();
-            var customers = new List<Customer>();
             if (num > 0)
             {
                 for (var i = 0; i < num; i++)
@@ -98,6 +102,22 @@ public static class DataInitializer
 
             await context.Customers.AddRangeAsync(customers);
             await context.SaveChangesAsync();
+        }
+        // Create login for customers
+        if (databaseOptions.SeedCustomerUserAccount)
+        {
+            var getCustomers = await context.Customers.ToListAsync();
+
+
+            foreach (var customer in getCustomers)
+            {
+                var user = await userManager.FindByEmailAsync(customer.EmailAddress);
+
+                if (user is null)
+                {
+                    await userManager.SeedUserAsync(email: customer.EmailAddress, $"{customer.Givenname}{customer.Surname}1", new[] { nameof(ApplicationRoles.Customer) });
+                }
+            }
         }
     }
     private static Customer GenerateCustomer()
@@ -185,10 +205,10 @@ public static class DataInitializer
             .RuleFor(e => e.Balance, (f, u) => 0);
 
         var account = testUser.Generate(1).First();
-        var start = DateTime.Now.AddDays(-Random.Next(1000, 10000));
+        var start = DateTime.Now.AddDays(-Random.Next(5000, 10000));
         account.Created = start;
         account.Balance = 0;
-        var transactions = Random.Next(1, 30);
+        var transactions = Random.Next(25, 65);
         for (var i = 0; i < transactions; i++)
         {
             var tran = new Transaction

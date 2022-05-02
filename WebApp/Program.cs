@@ -1,3 +1,4 @@
+using AzureSearch;
 using Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,10 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();
 var app = builder.Build();
 
+
+
+// Init Search and data
 await app.Services.InitializeDataAsync();
+await app.Services.InitializeAzureSearch();
+
+
+
 
 // Configure the HTTP request pipeline.
-
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();

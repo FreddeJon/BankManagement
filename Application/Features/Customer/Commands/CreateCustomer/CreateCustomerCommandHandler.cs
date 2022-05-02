@@ -1,4 +1,7 @@
 ﻿using AzureSearch.Services;
+using Microsoft.AspNetCore.Identity;
+using Persistence.Data;
+using Persistence.Models;
 
 namespace Application.Features.Customer.Commands.CreateCustomer;
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResponse>
@@ -6,12 +9,14 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly IAzureSearchService _azureSearchService;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public CreateCustomerCommandHandler(ApplicationDbContext context, IMapper mapper, IAzureSearchService azureSearchService)
+    public CreateCustomerCommandHandler(ApplicationDbContext context, IMapper mapper, IAzureSearchService azureSearchService, UserManager<IdentityUser> userManager)
     {
         _context = context;
         _mapper = mapper;
         _azureSearchService = azureSearchService;
+        _userManager = userManager;
     }
     public async Task<CreateCustomerResponse> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
@@ -33,7 +38,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
         await _context.SaveChangesAsync(cancellationToken);
         response.CustomerId = customer.Id;
 
-
+       await _userManager.SeedUserAsync(request.Customer?.EmailAddress, $"{request.Customer?.Givenname}{request.Customer?.Surname}1", new []{nameof(ApplicationRoles.Customer)});
 
 #pragma warning disable CS4014
         _azureSearchService.UploadDocuments();
@@ -41,4 +46,6 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
         return response;
     }
+
+
 }

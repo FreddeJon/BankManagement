@@ -1,4 +1,5 @@
 ﻿using Application.Features.Statistics.Query;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Pages;
 
@@ -7,12 +8,15 @@ public class IndexModel : PageModel
 {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
-    public IndexModel(IMapper mapper, IMediator mediator)
+    private readonly ApplicationDbContext _context;
+
+    public IndexModel(IMapper mapper, IMediator mediator, ApplicationDbContext context)
     {
         _mapper = mapper;
         _mediator = mediator;
+        _context = context;
     }
-    public IReadOnlyList<CustomerViewModel> Customers { get; set; }
+    public IReadOnlyList<CustomerViewModel>? Customers { get; set; }
 
     public GetStatisticsQueryHandler.Statistic Finland { get; set; } = null!;
 
@@ -52,6 +56,6 @@ public class IndexModel : PageModel
         public string Country { get; init; } = null!;
         public string City { get; init; } = null!;
         public string Streetaddress { get; init; } = null!;
-        public string Balance { get; init; }
+        public string Balance { get; init; } = null!;
     }
 }

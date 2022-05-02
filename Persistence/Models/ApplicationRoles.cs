@@ -3,5 +3,6 @@
 public enum ApplicationRoles
 {
     Admin,
-    Cashier
+    Cashier,
+    Customer
 }

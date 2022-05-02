@@ -6,11 +6,13 @@ public class IndexModel : PageModel
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IMapper _mapper;
+    private readonly ApplicationDbContext _context;
 
-    public IndexModel(UserManager<IdentityUser> userManager, IMapper mapper)
+    public IndexModel(UserManager<IdentityUser> userManager, IMapper mapper, ApplicationDbContext context)
     {
         _userManager = userManager;
         _mapper = mapper;
+        _context = context;
     }
 
     public List<UserViewModel> Users { get; private set; } = null!;
@@ -20,8 +22,9 @@ public class IndexModel : PageModel
 
     public async Task OnGet()
     {
+        var users = _mapper.Map<List<UserViewModel>>(await _userManager.GetUsersInRoleAsync(nameof(ApplicationRoles.Cashier)));
 
-        var users = _mapper.Map<List<UserViewModel>>(await _userManager.Users.ToListAsync());
+
 
         foreach (var user in users)
         {

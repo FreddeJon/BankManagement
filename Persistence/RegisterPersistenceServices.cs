@@ -24,8 +24,6 @@ public static class RegisterPersistenceServices
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        configuration.GetSection("");
-
         service.Configure<DatabaseOptions>(
             configuration.GetSection("DatabaseOptions"));
 

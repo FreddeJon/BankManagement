@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace Application.Features.Statistics.Query;
+﻿namespace Application.Features.Statistics.Query;
 public class GetStatisticsQueryHandler : IRequestHandler<GetStatisticsQuery, StatisticsBaseResponse>
 {
     private readonly ApplicationDbContext _context;

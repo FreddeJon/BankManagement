@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureSearch", "AzureSearch\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "Test\UnitTest.csproj", "{A8DAEAB3-B862-4511-A7BF-AD8DDCF13A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyLaunderingBatch", "MoneyLaundringBatch\MoneyLaunderingBatch.csproj", "{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyLaunderingBatch", "MoneyLaundringBatch\MoneyLaunderingBatch.csproj", "{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

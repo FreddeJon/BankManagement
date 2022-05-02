@@ -198,9 +198,10 @@ thead > th {
     letter-spacing: 0.05rem;
     color: black;
 }
-.paging-button :hover {
-    color: brown;
-}
+
+    .paging-button :hover {
+        color: brown;
+    }
 
 .id-col {
     max-width: 90px;
@@ -220,23 +221,23 @@ thead > th {
     position: relative
 }
 
-.form .fa-search {
-    position: absolute;
-    top: 12px;
-    left: 20px;
-    color: #9ca3af
-}
+    .form .fa-search {
+        position: absolute;
+        top: 12px;
+        left: 20px;
+        color: #9ca3af
+    }
 
 .form-input {
-    height:30px;
+    height: 30px;
     text-indent: 33px;
     border-radius: 10px
 }
 
-.form-input:focus {
-    box-shadow: none;
-    border: none
-}
+    .form-input:focus {
+        box-shadow: none;
+        border: none
+    }
 
 .search-customer {
     width: 230px;
@@ -254,3 +255,20 @@ li.breadcrumb-item a:hover {
 li.breadcrumb-item.text-primary {
     cursor: default;
 }
+
+.logo-big-title {
+    text-decoration: none;
+    letter-spacing: 4px;
+    color: white;
+}
+
+.logo-title {
+    color: white;
+    text-decoration: none;
+}
+
+
+    .logo-big-title:hover,
+    .logo-title:hover {
+        color: white;
+    }

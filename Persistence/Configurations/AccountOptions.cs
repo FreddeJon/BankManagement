@@ -5,7 +5,6 @@
 namespace Persistence.Configurations;
 public class AccountOptions
 {
-
     public bool SeedAccounts { get; set; }
     public AdminOptions? AdminOptions { get; set; }
     public UserOptions? UserOptions { get; set; }

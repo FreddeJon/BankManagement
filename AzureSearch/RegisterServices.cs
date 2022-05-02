@@ -10,14 +10,12 @@ public static class RegisterServices
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(path)
-            .AddJsonFile("appsettings.json", optional: false)
-            .AddUserSecrets<Program>();
+            .AddJsonFile("appsettings.json", optional: false);
         IConfiguration configuration = builder.Build();
 
         services.Configure<AzureSearchOptions>(
             configuration.GetSection("AzureSearchOptions"));
         services.AddTransient<IAzureSearchService, AzureSearchService>();
-
         return configuration;
     }
 }

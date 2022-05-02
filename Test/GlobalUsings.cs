@@ -8,4 +8,5 @@ global using Microsoft.EntityFrameworkCore;
 global using Persistence;
 global using Shouldly;
 global using UnitTest.Data;
+global using UnitTest.FakeServices;
 global using Xunit;
