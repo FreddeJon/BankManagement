@@ -1,5 +1,4 @@
 ﻿using Application.Features.Statistics.Query;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Pages;
 

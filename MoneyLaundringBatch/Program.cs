@@ -1,4 +1,5 @@
-﻿using Persistence;
+﻿using MoneyLaunderingBatch.Services;
+using Persistence;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
@@ -10,3 +11,9 @@ using var host = Host.CreateDefaultBuilder(args)
             });
         }
     ).Build();
+
+
+var scope = host.Services.CreateAsyncScope();
+
+
+await scope.ServiceProvider.GetService<ILaunderingChecker>()?.RunLaunderingCheck()!;

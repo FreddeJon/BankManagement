@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using Application.Configurations;
 using AzureSearch;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 

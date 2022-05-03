@@ -1,7 +1,4 @@
 ﻿using Application.Features.Api.Command.AuthenticateLogin;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers
 {

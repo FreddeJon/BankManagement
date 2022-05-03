@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace WebApp.Pages.Users;
 
 public class IndexModel : PageModel
