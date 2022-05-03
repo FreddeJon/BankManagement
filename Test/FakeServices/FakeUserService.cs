@@ -1,4 +1,6 @@
-﻿namespace UnitTest.FakeServices;
+﻿using Persistence.Contracts;
+
+namespace UnitTest.FakeServices;
 public class FakeUserService : IUserService
 {
     public string? GetCurrentUser()

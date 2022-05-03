@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Persistence.Contracts;
 
 namespace WebApp.Services;
 
@@ -12,7 +13,6 @@ public class UserService : IUserService
     }
     public string? GetCurrentUser()
     {
-
         var user = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email);
 
         return string.IsNullOrEmpty(user) ? "N/A" : user;

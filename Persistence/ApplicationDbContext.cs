@@ -2,6 +2,8 @@
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
+using Persistence.Contracts;
+
 #pragma warning disable CS8618
 namespace Persistence;
 

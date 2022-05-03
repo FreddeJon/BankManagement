@@ -3,6 +3,7 @@ using Application.Configurations;
 using AzureSearch;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Contracts;
 
 namespace WebApp;
 public static class RegisterServices
@@ -20,6 +21,7 @@ public static class RegisterServices
 
         builder.Services.Configure<JwtOptions>(
             builder.Configuration.GetSection(nameof(JwtOptions)));
+
 
         builder.Services.AddAuthorization(options =>
         {
