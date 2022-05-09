@@ -34,12 +34,12 @@ public class LaunderingChecker : ILaunderingChecker
 
     public class LaunderingCheck
     {
-        public string Name { get; set; }
-        public List<AccountDetails> Accounts { get; set; }
+        public string Name { get; init; } = null!;
+        public List<AccountDetails>? Accounts { get; init; }
         public class AccountDetails
         {
-            public int AccountId { get; set; }
-            public List<Transaction> Transactions { get; set; }
+            public int AccountId { get; init; }
+            public List<Transaction>? Transactions { get; init; }
         }
 
     }
@@ -50,27 +50,30 @@ public class LaunderingChecker : ILaunderingChecker
             .ThenInclude(x => x.Transactions)
             .AsQueryable();
 
-        var customersToCheck = await query.Select(x => new LaunderingCheck
+        var customersToCheck = await query.Select(customer => new LaunderingCheck
         {
-            Name = x.Givenname + " " + x.Surname,
-            Accounts = x.Accounts.Select(a => new LaunderingCheck.AccountDetails
+            Name = customer.Givenname + " " + customer.Surname,
+            Accounts = customer.Accounts.Select(account => new LaunderingCheck.AccountDetails
             {
-                AccountId = a.Id,
-                Transactions = a.Transactions.Where(t => t.Date >= DateTime.Now.AddDays(-4)).ToList()
+                AccountId = account.Id,
+                Transactions = account.Transactions.Where(transaction => transaction.Date >= DateTime.Now.AddDays(-4)).OrderByDescending(date => date.Date).ToList()
             }).ToList()
         }).ToListAsync();
 
         var foundSuspiciousTransactions = false;
 
-        var report = $"Report for {country}";
+
+        var report = $"Report for {country} {DateTime.Now:G}";
+
+
 
         foreach (var customer in customersToCheck)
         {
-            foreach (var account in customer.Accounts)
+            foreach (var account in customer.Accounts!)
             {
-                var transactionsLatest72Hours = account.Transactions.Where(x => x.Date >= DateTime.Now.AddHours(-72)).ToList();
+                var transactionsLatest72Hours = account.Transactions!.Where(x => x.Date >= DateTime.Now.AddHours(-72)).ToList();
 
-                var transactionsLatest24Hours = account.Transactions.Where(x => x.Date >= DateTime.Now.AddHours(-24))
+                var transactionsLatest24Hours = account.Transactions!.Where(x => x.Date >= DateTime.Now.AddHours(-24))
                     .Where(x => x.Amount >= 15000).ToList();
 
                 if (transactionsLatest72Hours.Sum(x => x.Amount) >= 23000)
@@ -93,9 +96,8 @@ public class LaunderingChecker : ILaunderingChecker
 }
 public static class ReportFormatHelper
 {
-    public static string AddLineBreak(this string report)
+    private static string AddLineBreak(this string report)
     {
-
         return report += "\n";
     }
 

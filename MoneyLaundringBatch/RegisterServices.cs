@@ -11,8 +11,10 @@ public static class RegisterServices
     {
         var sharedConfigurations = RegisterSharedSettings.GetSharedSettings();
 
+        IConfiguration configuration = builder.Build();
         services.Configure<MoneyLaunderingEmailOptions>(
             sharedConfigurations.GetSection("MoneyLaunderingEmailOptions"));
+
 
         services.AddTransient<IEmailSender, EmailSender>();
         services.AddTransient<ILaunderingChecker, LaunderingChecker>();
