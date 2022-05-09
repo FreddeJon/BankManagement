@@ -1,4 +1,4 @@
-﻿namespace Persistence.Configurations;
+﻿namespace Persistence.Options;
 
 public class DatabaseOptions
 {

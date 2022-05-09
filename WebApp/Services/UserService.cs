@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Persistence.Contracts;
 
 namespace WebApp.Services;
 
@@ -10,6 +11,7 @@ public class UserService : IUserService
     {
         _httpContextAccessor = httpContextAccessor;
     }
+
     public string? GetCurrentUser()
     {
 

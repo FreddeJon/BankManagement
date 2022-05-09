@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Bogus;
+using Persistence.Options;
 
 namespace Persistence.Data;
 

@@ -1,16 +1,26 @@
-﻿namespace Persistence;
+﻿using Persistence.Options;
+using Shared;
+
+namespace Persistence;
 public static class RegisterPersistenceServices
 {
-    public static void ConfigurePersistenceServices(this IServiceCollection service, IConfiguration configuration)
+    public static void ConfigurePersistenceServices(this IServiceCollection services)
     {
-        var connection = configuration.GetConnectionString("DbConnection");
+
+        var sharedConfiguration =  RegisterSharedSettings.GetSharedSettings();
+
+        var connection = sharedConfiguration.GetConnectionString("DbConnection");
 
 
-        service.AddDbContext<ApplicationDbContext>(options =>
+
+        services.Configure<AccountOptions>(sharedConfiguration.GetSection(nameof(AccountOptions)));
+        services.Configure<DatabaseOptions>(sharedConfiguration.GetSection(nameof(DatabaseOptions)));
+
+        services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connection), ServiceLifetime.Transient);
-        service.AddDatabaseDeveloperPageExceptionFilter();
+        services.AddDatabaseDeveloperPageExceptionFilter();
 
-        service.AddDefaultIdentity<IdentityUser>(options =>
+        services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.Lockout.AllowedForNewUsers = false;
@@ -24,10 +34,5 @@ public static class RegisterPersistenceServices
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        service.Configure<DatabaseOptions>(
-            configuration.GetSection("DatabaseOptions"));
-
-        service.Configure<AccountOptions>(
-            configuration.GetSection("AccountOptions"));
     }
 }

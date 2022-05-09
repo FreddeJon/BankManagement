@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "Test\UnitTest.c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyLaunderingBatch", "MoneyLaundringBatch\MoneyLaunderingBatch.csproj", "{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{C14E0BEF-F687-4C4B-9D55-0FAD73907DD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0AEA96A-0075-43EF-AC4B-DE40A93A7848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14E0BEF-F687-4C4B-9D55-0FAD73907DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14E0BEF-F687-4C4B-9D55-0FAD73907DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14E0BEF-F687-4C4B-9D55-0FAD73907DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14E0BEF-F687-4C4B-9D55-0FAD73907DD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

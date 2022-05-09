@@ -1,4 +1,7 @@
-﻿namespace AzureSearch.Services;
+﻿
+using AzureSearch.Options;
+
+namespace AzureSearch.Services;
 public class AzureSearchService : IAzureSearchService
 {
     private readonly ApplicationDbContext _context;
@@ -8,8 +11,6 @@ public class AzureSearchService : IAzureSearchService
     private readonly SearchIndexClient _adminClient;
 
     public SearchClient SearchClient { get; }
-
-
 
     public AzureSearchService(ApplicationDbContext context, IOptions<AzureSearchOptions> options)
     {

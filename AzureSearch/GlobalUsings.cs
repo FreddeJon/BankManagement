@@ -6,7 +6,6 @@ global using Azure.Search.Documents.Indexes;
 global using Azure.Search.Documents.Indexes.Models;
 global using Azure.Search.Documents.Models;
 global using AzureSearch;
-global using AzureSearch.Configurations;
 global using AzureSearch.Entities;
 global using AzureSearch.Services;
 global using Microsoft.EntityFrameworkCore;

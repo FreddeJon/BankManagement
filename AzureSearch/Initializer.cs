@@ -3,7 +3,7 @@ public static class Initializer
 {
     public static async Task InitializeAzureSearch(this IServiceProvider service)
     {
-        await using var scope = service.CreateAsyncScope();
+        using var scope = service.CreateScope();
 
         var azureSearchService = scope.ServiceProvider.GetService<IAzureSearchService>();
 

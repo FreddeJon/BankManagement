@@ -2,7 +2,7 @@
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace Persistence.Configurations;
+namespace Persistence.Options;
 public class AccountOptions
 {
     public bool SeedAccounts { get; set; }

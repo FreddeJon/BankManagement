@@ -23,6 +23,3 @@ else
 {
     Console.WriteLine("Error in AzureSearchService");
 }
-
-
-Console.Read();

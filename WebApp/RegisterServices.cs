@@ -1,25 +1,24 @@
 ﻿using System.Text;
-using Application.Configurations;
 using AzureSearch;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Contracts;
+using Shared;
 
 namespace WebApp;
 public static class RegisterServices
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
+        var sharedConfigurations = RegisterSharedSettings.GetSharedSettings();
 
-        builder.Services.ConfigurePersistenceServices(builder.Configuration);
+
+        builder.Services.ConfigurePersistenceServices();
         builder.Services.ConfigureApplicationServices();
         builder.Services.ConfigureAzureSearch();
 
         builder.Services.AddResponseCaching();
 
         builder.Services.AddControllers();
-
-        builder.Services.Configure<JwtOptions>(
-            builder.Configuration.GetSection(nameof(JwtOptions)));
 
         builder.Services.AddAuthorization(options =>
         {
@@ -35,9 +34,8 @@ public static class RegisterServices
             ops.Conventions.AuthorizeFolder("/", "AdminCashier");
             ops.Conventions.AuthorizeFolder("/Users", "Admin");
         });
-        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddTransient<IUserService, UserService>();
-
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         builder.Services.AddAuthentication()
@@ -53,9 +51,9 @@ public static class RegisterServices
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero,
 
-                    ValidAudience = builder.Configuration["JwtOptions:ValidAudience"],
-                    ValidIssuer = builder.Configuration["JwtOptions:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:Secret"]))
+                    ValidAudience = sharedConfigurations["JwtOptions:ValidAudience"],
+                    ValidIssuer = sharedConfigurations["JwtOptions:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(sharedConfigurations["JwtOptions:Secret"]))
                 };
             });
     }

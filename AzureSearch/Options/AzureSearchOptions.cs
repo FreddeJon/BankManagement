@@ -1,4 +1,4 @@
-﻿namespace AzureSearch.Configurations;
+﻿namespace AzureSearch.Options;
 
 public class AzureSearchOptions
 {

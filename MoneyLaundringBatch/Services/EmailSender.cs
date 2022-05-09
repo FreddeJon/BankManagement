@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
-using MoneyLaunderingBatch.Configurations;
 using MoneyLaunderingBatch.Contracts;
+using MoneyLaunderingBatch.Options;
 
 namespace MoneyLaunderingBatch.Services;
 public class EmailSender : IEmailSender

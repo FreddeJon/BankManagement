@@ -1,4 +1,4 @@
-﻿namespace MoneyLaunderingBatch.Configurations;
+﻿namespace MoneyLaunderingBatch.Options;
 
 public class MoneyLaunderingEmailOptions
 {

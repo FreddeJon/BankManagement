@@ -1,4 +1,4 @@
-﻿namespace Application.Configurations;
+﻿namespace Application.Options;
 public class JwtOptions
 {
     public string ValidAudience { get; set; }
