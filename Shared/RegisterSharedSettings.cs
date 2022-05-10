@@ -7,14 +7,10 @@ public static class RegisterSharedSettings
 {
     public static IConfiguration GetSharedSettings()
     {
-        var path = Directory.GetCurrentDirectory().Contains("WebApp")
-            ? Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Shared"
-            : Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent + @"\Shared";
-
-        //var path = Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Shared";
+        var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         var builder = new ConfigurationBuilder()
-            .SetBasePath(path)
+            .SetBasePath(assemblyPath)
             .AddJsonFile("sharedsettings.json", optional: false)
             .AddUserSecrets(assembly: Assembly.GetExecutingAssembly());
 
