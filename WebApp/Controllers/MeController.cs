@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Application.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -29,7 +28,6 @@ public class MeController : ControllerBase
         var id = HttpContext.User.SubjectId();
         
         var customer = _context.Customers.Include(x => x.Accounts).FirstOrDefault(x => x.Id == _context.CustomerUser.FirstOrDefault(x => x.UserId == id)!.CustomerId);
-
         
         return Ok(customer);
     }

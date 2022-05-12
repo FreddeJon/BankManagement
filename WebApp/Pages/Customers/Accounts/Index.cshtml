@@ -86,7 +86,6 @@
                                 </div>
                             </nav>
 
-
                             <div class="active-member">
                                 <div class="table-responsive">
                                     <strong>Total Balance @Model.Account.Balance.ToString("C")</strong>
@@ -110,10 +109,9 @@
                                                     <td>@transaction.Operation</td>
                                                     <td class="@(transaction.Type == "Debit" ? "text-success" : "text-danger")">@(transaction.Type == "Debit" ? "+" : "-")@transaction.Amount</td>
                                                     <td>@transaction.NewBalance</td>
-                                                    <td>@transaction.Date.ToString("s")<td>
+                                                    <td>@transaction.Date.ToString("s")</td>
                                                 </tr>
                                             }
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -121,7 +119,7 @@
 
                             @if (Model.TotalPage > 1)
                             {
-                                <a id="loadmore" class="btn" href="javascript:fetchMore();">See more</a>
+                                <a id="loadmore" class="btn" href="javascript:fetchMoreTransactions();">See more</a>
                             }
                         </div>
                     </div>
@@ -142,7 +140,7 @@
 
     pageNo = 2;
 
-    async function fetchMore() {
+    async function fetchMoreTransactions() {
 
         const response = await fetch(`Customers/${@Model.Customer.Id}/Accounts/${@Model.Account.Id}?handler=LoadTransactions&pageNo=${pageNo}&accountId=${@Model.Account.Id}`);
 

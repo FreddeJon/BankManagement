@@ -49,6 +49,7 @@ public class IndexModel : PageModel
     {
         var response = await _mediator.Send(new GetTransactionsQuery() { AccountId = accountId, Page = pageNo });
 
+
         if (response.Status == Application.Responses.StatusCode.Error) return new JsonResult(null);
 
 
