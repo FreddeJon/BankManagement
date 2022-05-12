@@ -7,7 +7,7 @@ public static class RegisterPersistenceServices
     public static void ConfigurePersistenceServices(this IServiceCollection services)
     {
 
-        var sharedConfiguration =  RegisterSharedSettings.GetSharedSettings();
+        var sharedConfiguration = RegisterSharedSettings.GetSharedSettings();
 
         var connection = sharedConfiguration.GetConnectionString("DbConnection");
 

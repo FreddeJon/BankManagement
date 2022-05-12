@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic;
-
-namespace Application.Features.Api.Query.GetMe;
+﻿namespace Application.Features.Api.Query.GetMe;
 public class GetMeQueryHandler : IRequestHandler<GetMeQuery, GetMeResponse>
 {
     private readonly ApplicationDbContext _context;
@@ -19,13 +17,12 @@ public class GetMeQueryHandler : IRequestHandler<GetMeQuery, GetMeResponse>
         var customer = _mapper.Map<CustomerDto>(await _context.Customers
             .Include(x => x.Accounts)
             .ThenInclude(x => x.Transactions)
-            .FirstOrDefaultAsync(x => x.Id == user.CustomerId, cancellationToken: cancellationToken));
-
-
-
+            .FirstOrDefaultAsync(x => x.Id == user!.CustomerId, cancellationToken: cancellationToken));
 
         if (customer is null)
         {
+            response.Status = StatusCode.Error;
+            response.StatusText = "Customer not found";
             return response;
         }
 

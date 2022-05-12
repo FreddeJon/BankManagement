@@ -139,7 +139,7 @@ public static class DataInitializer
                     CustomerId = customer.Id,
                     UserId = id
                 };
-                context.CustomerUser.Add(customerUser); 
+                context.CustomerUser.Add(customerUser);
                 // ReSharper disable once MethodHasAsyncOverload
                 context.SaveChanges();
                 Debug.WriteLine($"Created login for: {user.Email} with password: {password}");

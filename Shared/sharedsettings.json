@@ -18,7 +18,7 @@
     "SeedAccounts": false,
     "AdminOptions": {
       "Username": "Admin",
-      "Email": "admin@bankmanager.com",
+      "Email": "admin@bankmanager.com", 
       "Password": "admin123456"
     },
     "UserOptions": {

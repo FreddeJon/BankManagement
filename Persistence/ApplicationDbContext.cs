@@ -23,7 +23,7 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
-    
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
 

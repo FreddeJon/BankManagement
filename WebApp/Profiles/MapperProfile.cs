@@ -1,4 +1,5 @@
 ﻿using Application.Features.AzureSearch.Query.GetCustomersUsingAzureSearchService;
+using WebApp.Controllers;
 using WebApp.Pages.Customers;
 using WebApp.Pages.Customers.Accounts.Transaction;
 using IndexModel = WebApp.Pages.Customers.Accounts.IndexModel;
@@ -68,7 +69,16 @@ public class MapperProfile : Profile
 
 
 
+        // API ME
+        CreateMap<CustomerDto, MeController.MeCustomerViewModel>().ReverseMap();
+        CreateMap<AccountDto, MeController.MeAccountViewModel>().ReverseMap();
 
+        //API Account
+        CreateMap<AccountDto, AccountsController.AccountViewModel>();
+        CreateMap<TransactionDto, AccountsController.TransactionViewModel>()
+            .ForMember(x => x.Amount, opt => opt.MapFrom(x => x.Amount.ToString("C")))
+            .ForMember(x => x.NewBalance, opt => opt.MapFrom(x => x.NewBalance.ToString("C")))
+            .ForMember(x => x.Date, opt => opt.MapFrom(x => x.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 
     }
 

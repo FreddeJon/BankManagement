@@ -9,7 +9,7 @@ public class AuthenticateLoginResponse : BaseResponse
     public string? Token { get; set; }
 }
 
-public class AuthenticationRequest 
+public class AuthenticationRequest
 {
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;

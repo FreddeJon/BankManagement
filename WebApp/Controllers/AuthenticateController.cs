@@ -15,17 +15,15 @@ public class AuthenticateController : ControllerBase
 
     public class LoginModel
     {
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        [Required] public string Email { get; set; } = null!;
+        [Required] public string Password { get; set; } = null!;
     }
 
 
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginModel login)
     {
-        var response = await _mediator.Send(new AuthenticateLoginCommand() { AuthenticationRequest = new AuthenticationRequest(){Email = login.Email, Password = login.Password}});
+        var response = await _mediator.Send(new AuthenticateLoginCommand() { AuthenticationRequest = new AuthenticationRequest() { Email = login.Email, Password = login.Password } });
 
         if (response.Status == Application.Responses.StatusCode.Error)
         {
