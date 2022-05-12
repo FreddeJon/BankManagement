@@ -30,7 +30,7 @@ public class GetAccountForCustomerQueryHandler : IRequestHandler<GetAccountForCu
         if (account is null)
         {
             response.Status = StatusCode.Error;
-            response.StatusText = $"Account with id: {request.AccountId} not found";
+            response.StatusText = $"Account with id: {request.AccountId} not found in your accounts";
             return response;
         }
 
